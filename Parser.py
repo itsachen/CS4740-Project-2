@@ -61,26 +61,46 @@ class Context:
 
 def parse_test_data(filename):
     word_map = {}
+    tokenized_sentence_list = []
     with open(filename) as f:
-        linecounter = 0
         for line in f:
-            if linecounter < 50:
-                parts = re.split(' \| ', line)
-                word = re.split('\.', parts[0])[0]
-                pos = re.split('\.', parts[0])[1]
-                sense = parts[1]
-                context = parts[2]
+            parts = re.split(' \| ', line)
+            word = re.split('\.', parts[0])[0]
+            pos = re.split('\.', parts[0])[1]
+            sense = parts[1]
+            context = parts[2]
 
-                #print word + " # " + pos + " # " + sense + " # " + context
+            #Create word map
+            if not word in word_map:
+                word_map[word] = Word(word, pos)
+            word_map[word].add_context(sense, context)
 
-                if not word in word_map:
-                    word_map[word] = Word(word, pos)
-                word_map[word].add_context(sense, context)
-                linecounter += 1
+            #Create token list    
+            tokenized_sentence = nltk.word_tokenize(line)
+            tokenized_sentence.insert(0,'<s>')
+            tokenized_sentence.append('<e>')
+            tokenized_sentence_list.append(tokenized_sentence)
 
-    return word_map     
+    return word_map, tokenized_sentence_list
 
-map1 = parse_test_data(train_file)
-print len(map1)
-for x in map1:
-    print map1[x].toString()
+# inverse document frequency is defined as the total number of documents in the corpus 
+# divided by the number of total number of documents including that word.
+def get_idf(tokenized_sentence_list):
+    word_map = {}
+    for sentence in tokenized_sentence_list:
+        word_set = set(sentence)
+        for word in word_set:
+            if word in word_map:
+                word_map[word] += 1.0
+            else:
+                word_map[word] = 1.0
+    l = float(len(tokenized_sentence_list))
+    for key,value in word_map.items():
+        word_map[key] = l / word_map[key]
+    return word_map
+
+
+
+
+word_map, tokenized_sentence_list = parse_test_data(train_file)
+print get_idf(tokenized_sentence_list)
