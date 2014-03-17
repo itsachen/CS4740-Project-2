@@ -1,0 +1,792 @@
+<!-- Dictionary with examples removed because the course staff is lazy -->
+<dictmap>
+
+<lexelt item="begin.v" num="4">
+<sense id="1" wordnet="2,3,5,6,7" gloss="start, have an initial point " />
+<sense id="2" wordnet="1,8,5" gloss="initiate an undertaking" />
+<sense id="3" wordnet="4" gloss="make a locution, speak" />
+<sense id="4" wordnet="9" gloss="partially attain" />
+</lexelt>
+
+<lexelt item="complain.v" num="2">
+<sense id="1" wordnet="1" gloss="express feelings of pain, dissatisfaction, or resentment" />
+<sense id="2" wordnet="2" gloss="make formal, legal accusation or bring charge" />
+</lexelt>
+
+<lexelt item="plant.n" num="3">
+<sense id="1" wordnet="1" gloss="a building, or group of buildings, for industrial activity" />
+<sense id="2" wordnet="2" gloss="living photosynthesizing organism" />
+<sense id="3" wordnet="3,4" gloss="a contrivance or stratagem" />
+</lexelt>
+
+<lexelt item="need.v" num="2">
+<sense id="1" wordnet="1,2,3" gloss="must have, demand" />
+<sense id="2" wordnet="" gloss="must do something" />
+</lexelt>
+
+<lexelt item="carrier.n" num="13">
+<sense id="1" wordnet="7,8" gloss="an employee who delivers things, e.g. mail" />
+<sense id="2" wordnet="1" gloss="a bearer who bodily conveys something, e.g, supplies" />
+<sense id="3" wordnet="2" gloss="a vehicle or vessel that transports cargo or passengers" />
+<sense id="4" wordnet="3" gloss="a naval warship bearing aircraft" />
+<sense id="5" wordnet="10" gloss="a device to hold or transport items" />
+<sense id="6" wordnet="5" gloss="a transportation business" />
+<sense id="7" wordnet="8" gloss="an insurance business" />
+<sense id="8" wordnet="" gloss="a telecommunications business" />
+<sense id="9" wordnet="11" gloss="an organism carrying a masked recessive gene" />
+<sense id="10" wordnet="9" gloss="an organism carrying a pathogen, but not showing symptoms" />
+<sense id="11" wordnet="4" gloss="inactive chemical substance acting as a catalyst" />
+<sense id="12" wordnet="" gloss="a particle holding, or capable of holding, electric charge" />
+<sense id="13" wordnet="6" gloss="a modulated radio wave that can convey a signal" />
+</lexelt>
+
+<lexelt item="occur.v" num="4">
+<sense id="1" wordnet="1" gloss="happen or take place" />
+<sense id="2" wordnet="2" gloss="come to mind" />
+<sense id="3" wordnet="3" gloss="exist, be present" />
+<sense id="4" wordnet="1" gloss="happen or go together" />
+</lexelt>
+
+<lexelt item="state.n" num="4">
+<sense id="1" wordnet="" gloss="nation" />
+<sense id="2" wordnet="" gloss="one of the constituent administrative districts of a nation" />
+<sense id="3" wordnet="" gloss="the conditions and attributes that define something" />
+<sense id="4" wordnet="" gloss="U.S. Dept. of State" />
+</lexelt>
+
+<lexelt item="announce.v" num="3">
+<sense id="1" wordnet="1,2" gloss="make known, declare" />
+<sense id="2" wordnet="3" gloss="name, identify" />
+<sense id="3" wordnet="4" gloss="foretell" />
+</lexelt>
+
+<lexelt item="care.v" num="3">
+<sense id="1" wordnet="1,5" gloss="consider as important enough for attention, concern or liking" />
+<sense id="2" wordnet="2,4" gloss="tend or supervise somebody, provide protection and assistance" />
+<sense id="3" wordnet="3" gloss="want, desire or perfer to do something" />
+</lexelt>
+
+<lexelt item="ask.v" num="6">
+<sense id="1" wordnet="1,3,6" gloss="inquire, seek an answer" />
+<sense id="2" wordnet="2,4" gloss="request or demand something from someone" />
+<sense id="3" wordnet="5" gloss="specify a price or value for something" />
+<sense id="4" wordnet="7" gloss="need, call for" />
+<sense id="5" wordnet="1" gloss="acting in a manner that results in specific consequences" />
+<sense id="6" wordnet="1" gloss="invite" />
+</lexelt>
+
+<lexelt item="defense.n" num="8">
+<sense id="1" wordnet="6,7,8" gloss="an argument that gives grounds or justification for a position" />
+<sense id="2" wordnet="4,2" gloss="action serving a protective function, often military" />
+<sense id="3" wordnet="1" gloss="a sports team in the role of preventing scoring by the opponent" />
+<sense id="4" wordnet="3" gloss="a legal team serving the client against the prosecution" />
+<sense id="5" wordnet="5,11" gloss="a structure to withstand attack" />
+<sense id="6" wordnet="9" gloss="organization of defenders, as military units" />
+<sense id="7" wordnet="9" gloss="business enterprises that build, develop military weaponry" />
+<sense id="8" wordnet="10" gloss="a federal department responsible for safeguarding national security" />
+</lexelt>
+
+<lexelt item="capital.n" num="5">
+<sense id="1" wordnet="1,2" gloss="available wealth or assets" />
+<sense id="2" wordnet="3" gloss="a seat of government or influence" />
+<sense id="3" wordnet="4" gloss="a letter represented in uppercase" />
+<sense id="4" wordnet="5" gloss="a book by Karl Marx" />
+<sense id="5" wordnet="6" gloss="uppermost part of a column" />
+</lexelt>
+
+<lexelt item="move.n" num="4">
+<sense id="1" wordnet="2" gloss="residence change" />
+<sense id="2" wordnet="1" gloss="action" />
+<sense id="3" wordnet="5" gloss="Game:a turn" />
+<sense id="4" wordnet="3,4" gloss="other moves" />
+</lexelt>
+
+<lexelt item="base.n" num="12">
+<sense id="1" wordnet="8" gloss="limit" />
+<sense id="2" wordnet="6,7,11,18" gloss="bottom" />
+<sense id="3" wordnet="3,9,10" gloss="foundation" />
+<sense id="4" wordnet="12,17" gloss="principle ingredient" />
+<sense id="5" wordnet="1" gloss="alkali" />
+<sense id="6" wordnet="4" gloss="bag" />
+<sense id="7" wordnet="2,13" gloss="station" />
+<sense id="8" wordnet="16" gloss="infrastructure" />
+<sense id="9" wordnet="15" gloss="stem" />
+<sense id="10" wordnet="5" gloss="radix" />
+<sense id="11" wordnet="19" gloss="transistor piece" />
+<sense id="12" wordnet="14" gloss="al-Qaeda" />
+</lexelt>
+
+<lexelt item="share.n" num="3">
+<sense id="1" wordnet="2,3,4" gloss="a portion or percentage of a whole" />
+<sense id="2" wordnet="1" gloss="capital stock in a corporation" />
+<sense id="3" wordnet="5" gloss="a tool for tilling soil" />
+</lexelt>
+
+<lexelt item="contribute.v" num="2">
+<sense id="1" wordnet="1,2,4" gloss="give, provide, donate something" />
+<sense id="2" wordnet="3" gloss="be a factor, play a role in" />
+</lexelt>
+
+<lexelt item="cause.v" num="1">
+<sense id="1" wordnet="1,2" gloss="induce, make happen" />
+</lexelt>
+
+<lexelt item="system.n" num="7">
+<sense id="1" wordnet="" gloss="process or set of rules that provides order and structure" />
+<sense id="2" wordnet="" gloss="man-made system of (electrical/mechanical) closely interacting parts" />
+<sense id="3" wordnet="" gloss="biological system of closely interacting parts" />
+<sense id="4" wordnet="" gloss="loose collection of concrete objects which are linked through regularized interactions" />
+<sense id="5" wordnet="" gloss="the powers that be" />
+<sense id="6" wordnet="" gloss="strong desires and feelings" />
+<sense id="7" wordnet="" gloss="a sample of matter in which substances in different phases are in equilibrium." />
+</lexelt>
+
+<lexelt item="fix.v" num="6">
+<sense id="1" wordnet="1" gloss="repair,mend" />
+<sense id="2" wordnet="2,8,10" gloss="fasten,secure" />
+<sense id="3" wordnet="3,6" gloss="specify" />
+<sense id="4" wordnet="4,7,11" gloss="prepare, make, get ready" />
+<sense id="5" wordnet="5" gloss="take revenge on" />
+<sense id="6" wordnet="9" gloss="sterilize" />
+</lexelt>
+
+<lexelt item="avoid.v" num="2">
+<sense id="1" wordnet="1,2,3,4" gloss="keep away, prevent from happening, or not do something" />
+<sense id="2" wordnet="5" gloss="LAW- annul, make void, make invalid" />
+</lexelt>
+
+<lexelt item="enjoy.v" num="2">
+<sense id="1" wordnet="1,3,5" gloss="relish, savor, delight in" />
+<sense id="2" wordnet="2,4" gloss="derive benefit from" />
+</lexelt>
+
+<lexelt item="disclose.v" num="2">
+<sense id="1" wordnet="1" gloss="reveal something previously secret" />
+<sense id="2" wordnet="2" gloss="expose by removing a cover" />
+</lexelt>
+
+<lexelt item="turn.v" num="15">
+<sense id="1" wordnet="1,4,7,8,9,11,14,18,20,22,23,24,25" gloss="(cause to) change orientation or direction" />
+<sense id="2" wordnet="2,5,12,13,17,26" gloss="(cause to) undergo a transformation of substance, shape, or feature" />
+<sense id="3" wordnet="3,10,21" gloss="(cause to) undergo a change in attitude, emotion, belief, or custom" />
+<sense id="4" wordnet="6" gloss="send away or reject" />
+<sense id="5" wordnet="" gloss="change the activation or arousal of" />
+<sense id="6" wordnet="" gloss="prove, show to be, end up" />
+<sense id="7" wordnet="" gloss="appear, discover, find" />
+<sense id="8" wordnet="19" gloss="produce, especially through commerce or business" />
+<sense id="9" wordnet="16" gloss="shape by rotating" />
+<sense id="10" wordnet="15" gloss="sprain, hurt by twisting" />
+<sense id="11" wordnet="15" gloss="deliver, hand over" />
+<sense id="12" wordnet="" gloss="go to or get up from sleep" />
+<sense id="13" wordnet="" gloss="(cause to) improve" />
+<sense id="14" wordnet="" gloss="come or gather" />
+<sense id="15" wordnet="" gloss="idioms" />
+</lexelt>
+
+<lexelt item="see.v" num="10">
+<sense id="1" wordnet="1,7,19,20" gloss="perceive by sight" />
+<sense id="2" wordnet="2,4,5,24" gloss="realize, visualize or understand mentally (or through imagination)" />
+<sense id="3" wordnet="3,6,13,17,21" gloss="witness, observe, or experience" />
+<sense id="4" wordnet="8,10,14" gloss="verify, prove, check or insure by actively examining (evidence)" />
+<sense id="5" wordnet="14,22" gloss="take care of, take responsilibity over, keep up with" />
+<sense id="6" wordnet="9,11,12,15,16" gloss="meet or encounter on social or professional capacity" />
+<sense id="7" wordnet="23" gloss="match as in poker game" />
+<sense id="8" wordnet="1" gloss="SEE RED-become angry or upset" />
+<sense id="9" wordnet="1" gloss="SEE THE LIGHT-change or reform for the bettter" />
+<sense id="10" wordnet="1" gloss="SEE EYE TO EYE-be in agreement" />
+</lexelt>
+
+<lexelt item="lead.v" num="7">
+<sense id="1" wordnet="2,3,5,9" gloss="result in, tend to, cause, conduce" />
+<sense id="2" wordnet="4,8,13" gloss="travel in front of, be first, precede" />
+<sense id="3" wordnet="6,12" gloss="extend, connect, afford access to" />
+<sense id="4" wordnet="7,10,15" gloss="head, preside, direct" />
+<sense id="5" wordnet="1" gloss="guide" />
+<sense id="6" wordnet="11" gloss="pass, spend" />
+<sense id="7" wordnet="14" gloss="run, place" />
+</lexelt>
+
+<lexelt item="source.n" num="6">
+<sense id="1" wordnet="1" gloss="origin or beginning" />
+<sense id="2" wordnet="3,4" gloss="an information reference, e.g. publication or an organization" />
+<sense id="3" wordnet="2" gloss="an informant" />
+<sense id="4" wordnet="7" gloss="the cause or instigation of something" />
+<sense id="5" wordnet="6" gloss="inspiration or muse" />
+<sense id="6" wordnet="5,8,9" gloss="repository or reservoir of something" />
+</lexelt>
+
+<lexelt item="exchange.n" num="6">
+<sense id="1" wordnet="1,3,4,9,10,11" gloss="changing one thing for another" />
+<sense id="2" wordnet="2" gloss="a mutual expression of views" />
+<sense id="3" wordnet="6" gloss="marketplace" />
+<sense id="4" wordnet="5" gloss="telecommunications facility" />
+<sense id="5" wordnet="8" gloss="changing money, collectively" />
+<sense id="6" wordnet="7" gloss="a rally" />
+</lexelt>
+
+<lexelt item="space.n" num="8">
+<sense id="1" wordnet="1" gloss="the physical expanse of the universe" />
+<sense id="2" wordnet="2,3" gloss="size or extent of an area or location, bounded or demarcated" />
+<sense id="3" wordnet="" gloss="mathematical dimensionality, geometry" />
+<sense id="4" wordnet="6,7" gloss="small purposefully blank regions in documents" />
+<sense id="5" wordnet="" gloss="unrestricted assertion of personal identity" />
+<sense id="6" wordnet="5" gloss="an amount or interval of time" />
+<sense id="7" wordnet="4" gloss="a notation, a single blank between letters" />
+<sense id="8" wordnet="8" gloss="block of typeset with no raised letters" />
+</lexelt>
+
+<lexelt item="order.n" num="9">
+<sense id="1" wordnet="1,6,9" gloss="command" />
+<sense id="2" wordnet="2" gloss="order of magnitude" />
+<sense id="3" wordnet="3" gloss="lawfulness" />
+<sense id="4" wordnet="4,15" gloss="arrangement" />
+<sense id="5" wordnet="5" gloss="neatness" />
+<sense id="6" wordnet="7,13" gloss="purchase" />
+<sense id="7" wordnet="8,10,11" gloss="club" />
+<sense id="8" wordnet="12" gloss="taxonomic group" />
+<sense id="9" wordnet="14" gloss="greek style" />
+</lexelt>
+
+<lexelt item="remove.v" num="2">
+<sense id="1" wordnet="1,2,3,4,5,6,8" gloss="take something or someone away from somewhere" />
+<sense id="2" wordnet="7" gloss="murder" />
+</lexelt>
+
+<lexelt item="keep.v" num="8">
+<sense id="1" wordnet="1,2,8,12,14,22" gloss="maintain or preserve a particular condition, state, or activity" />
+<sense id="2" wordnet="3,10,17" gloss="retain ownership, access or title to something" />
+<sense id="3" wordnet="9,16,18,19,20,21" gloss="cause to stay in place; retain something in a particular place" />
+<sense id="4" wordnet="4" gloss="restrain, hold back, or prevent from doing something" />
+<sense id="5" wordnet="5,13" gloss="conform to, honor" />
+<sense id="6" wordnet="7,11,15" gloss="care for, sustain, look after" />
+<sense id="7" wordnet="6" gloss="observe, follow along, synchronize, track" />
+<sense id="8" wordnet="1" gloss="multi-word and verb particle constructions" />
+</lexelt>
+
+<lexelt item="network.n" num="4">
+<sense id="1" wordnet="1" gloss="a system of interconnected social entities,e.g., people, organizations" />
+<sense id="2" wordnet="2" gloss="a broadcasting business, an enterprise that disseminates content via telecommunications equipment" />
+<sense id="3" wordnet="4,5" gloss="a physical system of interconnected components" />
+<sense id="4" wordnet="3" gloss="a mesh-like fabric or substance" />
+</lexelt>
+
+<lexelt item="purchase.v" num="1">
+<sense id="1" wordnet="1" gloss="buy, obtain via finacncial transaction" />
+</lexelt>
+
+<lexelt item="do.v" num="6">
+<sense id="1" wordnet="1,2,3,5,6,8,9,12" gloss="act, engage in, undertake, execute, cause, make" />
+<sense id="2" wordnet="4" gloss="fare, get along" />
+<sense id="3" wordnet="7" gloss="suffice or satisfy" />
+<sense id="4" wordnet="10" gloss="serve time (usually in prison)" />
+<sense id="5" wordnet="11" gloss="manage, carry on" />
+<sense id="6" wordnet="13" gloss="travel or go" />
+</lexelt>
+
+<lexelt item="go.v" num="14">
+<sense id="1" wordnet="1,2,14,16,20,21,25" gloss="move, travel, proceed" />
+<sense id="2" wordnet="3,5,9,13,28" gloss="depart" />
+<sense id="3" wordnet="17,30" gloss="die, cease to function" />
+<sense id="4" wordnet="4,10,15,19" gloss="change to or continue in a certain state" />
+<sense id="5" wordnet="8,16" gloss="happen" />
+<sense id="6" wordnet="11,23" gloss="say or have the (sound) sequence of" />
+<sense id="7" wordnet="" gloss="be on the point of; be intending to" />
+<sense id="8" wordnet="18,22,24,26" gloss="belong, fit, harmonize" />
+<sense id="9" wordnet="" gloss="attend" />
+<sense id="10" wordnet="7" gloss="extend or stretch" />
+<sense id="11" wordnet="12" gloss="function, operate" />
+<sense id="12" wordnet="27" gloss="rifle, search through" />
+<sense id="13" wordnet="29" gloss="give support to" />
+<sense id="14" wordnet="" gloss="miscellaneous idioms" />
+</lexelt>
+
+<lexelt item="receive.v" num="2">
+<sense id="1" wordnet="1,2,3,4,8,9,11,12" gloss="obtain, incur, get, encounter" />
+<sense id="2" wordnet="5,6,7,10,13" gloss="welcome, invite, accept" />
+</lexelt>
+
+<lexelt item="end.v" num="4">
+<sense id="1" wordnet="1" gloss="stop, finish, terminate (A ends)" />
+<sense id="2" wordnet="2,4" gloss="bring to a halt, terminate (A causes B to end)" />
+<sense id="3" wordnet="3" gloss="be the end of, conclude (A is the event at the end of B)" />
+<sense id="4" wordnet="1" gloss="end up, wind up, finally be or do something" />
+</lexelt>
+
+<lexelt item="start.v" num="7">
+<sense id="1" wordnet="4,6,12" gloss="have an initial point with some characteristic" />
+<sense id="2" wordnet="1,9,10,13" gloss="begin an event, action, or effect" />
+<sense id="3" wordnet="2,5,6" gloss="to cause to come into being" />
+<sense id="4" wordnet="8" gloss="(cause a machine to) begin to function or operate" />
+<sense id="5" wordnet="3" gloss="begin a journey, depart" />
+<sense id="6" wordnet="11" gloss="play in the starting lineup" />
+<sense id="7" wordnet="7,14" gloss="startle, jump" />
+</lexelt>
+
+<lexelt item="part.n" num="7">
+<sense id="1" wordnet="1,2,4,5,7" gloss="portion" />
+<sense id="2" wordnet="3" gloss="our/his/my part" />
+<sense id="3" wordnet="6" gloss="function" />
+<sense id="4" wordnet="8" gloss="theatrical role" />
+<sense id="5" wordnet="9,10" gloss="share" />
+<sense id="6" wordnet="11" gloss="voice" />
+<sense id="7" wordnet="12" gloss="divide in hair" />
+</lexelt>
+
+<lexelt item="attempt.v" num="2">
+<sense id="1" wordnet="1" gloss="try to do something" />
+<sense id="2" wordnet="2" gloss="the act of surmounting, climbing, descending" />
+</lexelt>
+
+<lexelt item="feel.v" num="3">
+<sense id="1" wordnet="1,3,4,5,6,7,12" gloss="experience, sense" />
+<sense id="2" wordnet="8,9,10,11,13" gloss="touch,grope" />
+<sense id="3" wordnet="2" gloss="find, conclude" />
+</lexelt>
+
+<lexelt item="estimate.v" num="1">
+<sense id="1" wordnet="1,2" gloss="approximate, guess, reckon" />
+</lexelt>
+
+<lexelt item="set.v" num="12">
+<sense id="1" wordnet="1,6,9,11,12,15" gloss="put, place, position" />
+<sense id="2" wordnet="10" gloss="go down, sink" />
+<sense id="3" wordnet="2,3,4,8,20,23" gloss="determine, fix at certain value" />
+<sense id="4" wordnet="7,21,22" gloss="prepare, arrange; create or organize for a particular purpose" />
+<sense id="5" wordnet="5,13" gloss="cause to assume a condition" />
+<sense id="6" wordnet="" gloss="begin an activity, or cause one to begin" />
+<sense id="7" wordnet="14,16,17,25" gloss="fix firmly, solidify" />
+<sense id="8" wordnet="" gloss="ensnare, frame, arrange through deceit" />
+<sense id="9" wordnet="" gloss="dialect for SIT" />
+<sense id="10" wordnet="19" gloss="(cause to) attack" />
+<sense id="11" wordnet="18" gloss="hone" />
+<sense id="12" wordnet="24" gloss="reproduce,fructify" />
+</lexelt>
+
+<lexelt item="come.v" num="11">
+<sense id="1" wordnet="1,2,12,17" gloss="move, travel, arrive" />
+<sense id="2" wordnet="3,14,16,18,19" gloss="occur, happen" />
+<sense id="3" wordnet="4" gloss="progress to a state" />
+<sense id="4" wordnet="6" gloss="be available, exist in a state" />
+<sense id="5" wordnet="5,7,8,11" gloss="originate from, issue from" />
+<sense id="6" wordnet="10,13,21" gloss="occur in a sequence, prioritized" />
+<sense id="7" wordnet="9,15" gloss="reach, extend to, total" />
+<sense id="8" wordnet="" gloss="discover or think up" />
+<sense id="9" wordnet="" gloss="be revealed" />
+<sense id="10" wordnet="20" gloss="experience orgasm" />
+<sense id="11" wordnet="" gloss="idioms" />
+</lexelt>
+
+<lexelt item="produce.v" num="3">
+<sense id="1" wordnet="1,2,3,6" gloss="yield, create, make" />
+<sense id="2" wordnet="4,5" gloss="exhibit, release" />
+<sense id="3" wordnet="7" gloss="develop, acquire" />
+</lexelt>
+
+<lexelt item="improve.v" num="1">
+<sense id="1" wordnet="1,2" gloss="change for the better" />
+</lexelt>
+
+<lexelt item="chance.n" num="4">
+<sense id="1" wordnet="1" gloss="an opportunity" />
+<sense id="2" wordnet="2" gloss="events without apparent cause, random occurrence, luck" />
+<sense id="3" wordnet="" gloss="risk, potential bad outcome" />
+<sense id="4" wordnet="4,5" gloss="a measure of the likelihood or probability of an event" />
+</lexelt>
+
+<lexelt item="claim.v" num="4">
+<sense id="1" wordnet="1" gloss="maintain or affirm that something is true" />
+<sense id="2" wordnet="2,3,4" gloss="demand, ask for, or take as one's due" />
+<sense id="3" wordnet="" gloss="deserve, call for, or require" />
+<sense id="4" wordnet="5" gloss="cause death, as if by right" />
+</lexelt>
+
+<lexelt item="raise.v" num="9">
+<sense id="1" wordnet="1,13,15,16,17,23,25" gloss="increase" />
+<sense id="2" wordnet="2,8,20,24" gloss="lift, elevate, orient upwards" />
+<sense id="3" wordnet="3,11,21" gloss="express, activate" />
+<sense id="4" wordnet="4,18" gloss="collect, levy" />
+<sense id="5" wordnet="5,6" gloss="cultivate, nurture" />
+<sense id="6" wordnet="7,10,19,22,27" gloss="invoke, elicit, set off" />
+<sense id="7" wordnet="12,14" gloss="advance, better, promote" />
+<sense id="8" wordnet="9" gloss="construct, build" />
+<sense id="9" wordnet="26" gloss="end" />
+</lexelt>
+
+<lexelt item="value.n" num="5">
+<sense id="1" wordnet="2" gloss="quality" />
+<sense id="2" wordnet="1,3" gloss="quantity" />
+<sense id="3" wordnet="6" gloss="moral principal" />
+<sense id="4" wordnet="5" gloss="duration of a musical note" />
+<sense id="5" wordnet="4" gloss="relative darkness" />
+</lexelt>
+
+<lexelt item="regard.v" num="3">
+<sense id="1" wordnet="1" gloss="consider, believe" />
+<sense id="2" wordnet="2" gloss="look" />
+<sense id="3" wordnet="3" gloss="concern, pertain" />
+</lexelt>
+
+<lexelt item="complete.v" num="3">
+<sense id="1" wordnet="1,5" gloss="finish an activity or process, either physical or abstract" />
+<sense id="2" wordnet="3,4" gloss="carry out an assigned task or duty" />
+<sense id="3" wordnet="2" gloss="make whole, add a missing part to a given whole" />
+</lexelt>
+
+<lexelt item="prove.v" num="6">
+<sense id="1" wordnet="2,3,4,5" gloss="establish the truth, validity, or authenticity of something" />
+<sense id="2" wordnet="1" gloss="turn out to be, show a particular result after a period of time" />
+<sense id="3" wordnet="1" gloss="show oneself to be competent or worthy" />
+<sense id="4" wordnet="9" gloss="LAW- establish as authentic or genuine" />
+<sense id="5" wordnet="6,7" gloss="COOKING- rise or gain volume in a warm place" />
+<sense id="6" wordnet="8" gloss="PRINTING ARTS- make a test impression" />
+</lexelt>
+
+<lexelt item="rate.n" num="2">
+<sense id="1" wordnet="1" gloss="cost" />
+<sense id="2" wordnet="2,3" gloss="pace, speed" />
+</lexelt>
+
+<lexelt item="future.n" num="4">
+<sense id="1" wordnet="1" gloss="time to come" />
+<sense id="2" wordnet="2" gloss="verb tense" />
+<sense id="3" wordnet="3" gloss="commodities" />
+<sense id="4" wordnet="" gloss="personal time to come" />
+</lexelt>
+
+<lexelt item="buy.v" num="7">
+<sense id="1" wordnet="1,3,5" gloss="use something to acquire goods; obtain through trade or transaction" />
+<sense id="2" wordnet="2" gloss="bribe, make payments to in exchange for benefits" />
+<sense id="3" wordnet="4" gloss="accept as true" />
+<sense id="4" wordnet="" gloss="invest" />
+<sense id="5" wordnet="" gloss="be killed; die" />
+<sense id="6" wordnet="" gloss="take over ownership of" />
+<sense id="7" wordnet="" gloss="stall, delay" />
+</lexelt>
+
+<lexelt item="promise.v" num="2">
+<sense id="1" wordnet="1,2" gloss="pledge or make a commitment" />
+<sense id="2" wordnet="3,4" gloss="give grounds for expectation" />
+</lexelt>
+
+<lexelt item="bill.n" num="9">
+<sense id="1" wordnet="4,5" gloss="a written list of particular things being offered" />
+<sense id="2" wordnet="6,8" gloss="a written notice that announces or advertises something" />
+<sense id="3" wordnet="1" gloss="a statute or draft not yet become law" />
+<sense id="4" wordnet="2" gloss="an itemized statement of money owed" />
+<sense id="5" wordnet="3" gloss="a printed note that is legal tender" />
+<sense id="6" wordnet="7" gloss="the mouth of a bird" />
+<sense id="7" wordnet="9" gloss="a long-handled saw" />
+<sense id="8" wordnet="10" gloss="brim of a hat that projects forward, visor" />
+<sense id="9" wordnet="" gloss="the point of a ship anchor's fluke" />
+</lexelt>
+
+<lexelt item="build.v" num="4">
+<sense id="1" wordnet="1,5,7" gloss="physically construct something, either directly or by implication" />
+<sense id="2" wordnet="2,9,10" gloss="develop, increase" />
+<sense id="3" wordnet="3,6,8" gloss="establish or create a complex process or abstract entity, according to a plan" />
+<sense id="4" wordnet="4" gloss="improve cleaning action of" />
+</lexelt>
+
+<lexelt item="approve.v" num="2">
+<sense id="1" wordnet="1" gloss="authorize, pass, clear" />
+<sense id="2" wordnet="2" gloss="judge or regard favorably" />
+</lexelt>
+
+<lexelt item="authority.n" num="6">
+<sense id="1" wordnet="1" gloss="power to give orders, official state of power" />
+<sense id="2" wordnet="4" gloss="assurance, confidence" />
+<sense id="3" wordnet="2" gloss="officials who have specific powers" />
+<sense id="4" wordnet="3,7" gloss="most knowledgable source, expert" />
+<sense id="5" wordnet="5" gloss="a government agency with specific power" />
+<sense id="6" wordnet="6" gloss="official permission to do something" />
+</lexelt>
+
+<lexelt item="recall.v" num="4">
+<sense id="1" wordnet="1,2,3" gloss="remember, cause to remember" />
+<sense id="2" wordnet="6,7" gloss="remove from circulation, defective products" />
+<sense id="3" wordnet="4" gloss="summon or order someone back" />
+<sense id="4" wordnet="5" gloss="restore or revive" />
+</lexelt>
+
+<lexelt item="drug.n" num="3">
+<sense id="1" wordnet="1" gloss="Medicines" />
+<sense id="2" wordnet="" gloss="Narcotics" />
+</lexelt>
+
+<lexelt item="work.v" num="9">
+<sense id="1" wordnet="1,2,6,8,10,12" gloss="exert oneself in an activity" />
+<sense id="2" wordnet="3,4,11" gloss="perform, function, behave" />
+<sense id="3" wordnet="5,13,14,20,22" gloss="shape, form, handle" />
+<sense id="4" wordnet="7,9,21,27" gloss="proceed, move, position" />
+<sense id="5" wordnet="15,18,19,23" gloss="control, exploit, act upon" />
+<sense id="6" wordnet="16,17" gloss="operate" />
+<sense id="7" wordnet="25,26" gloss="ferment" />
+<sense id="8" wordnet="24" gloss="solve, figure out" />
+<sense id="9" wordnet="" gloss="idioms" />
+</lexelt>
+
+<lexelt item="policy.n" num="3">
+<sense id="1" wordnet="1,2" gloss="a plan of action, approach" />
+<sense id="2" wordnet="3" gloss="Insurance policy" />
+<sense id="3" wordnet="" gloss="an illegal lottery or numbers game" />
+</lexelt>
+
+<lexelt item="power.n" num="4">
+<sense id="1" wordnet="1,3,5,7" gloss="an ability to control or influence" />
+<sense id="2" wordnet="4,6,9" gloss="entity that possesses ability to control or influence" />
+<sense id="3" wordnet="2" gloss="exerted physical force" />
+<sense id="4" wordnet="8" gloss="a mathematical measurement" />
+</lexelt>
+
+<lexelt item="replace.v" num="2">
+<sense id="1" wordnet="1,2,3" gloss="substitute, switch or supplant" />
+<sense id="2" wordnet="4" gloss="restore or return" />
+</lexelt>
+
+<lexelt item="find.v" num="6">
+<sense id="1" wordnet="1,2,3,6,7,8,9,12,13,14,15,16" gloss="locate, discover, or encounter" />
+<sense id="2" wordnet="4" gloss="solve or calculate" />
+<sense id="3" wordnet="5" gloss="opine or believe" />
+<sense id="4" wordnet="10" gloss="accumulate a resource" />
+<sense id="5" wordnet="11" gloss="rule or pronounce, usually legal" />
+<sense id="6" wordnet="" gloss="blame, criticize" />
+</lexelt>
+
+<lexelt item="people.n" num="6">
+<sense id="1" wordnet="1" gloss="a general reference to any group of humans" />
+<sense id="2" wordnet="2,3" gloss="ordinary citizenry without special rank or status" />
+<sense id="3" wordnet="4" gloss="family line, relatives" />
+<sense id="4" wordnet="" gloss="subordinate work associates" />
+<sense id="5" wordnet="2" gloss="specific ethnic groups" />
+<sense id="6" wordnet="" gloss="state prosecution in a trial" />
+</lexelt>
+
+<lexelt item="report.v" num="4">
+<sense id="1" wordnet="1,2,5" gloss="describe, account" />
+<sense id="2" wordnet="4,6" gloss="inform on" />
+<sense id="3" wordnet="3" gloss="be accountable to" />
+<sense id="4" wordnet="1" gloss="report out" />
+</lexelt>
+
+<lexelt item="point.n" num="14">
+<sense id="1" wordnet="1,9,17" gloss="dot" />
+<sense id="2" wordnet="2" gloss="location" />
+<sense id="3" wordnet="3,7" gloss="meaning" />
+<sense id="4" wordnet="5,12,13,14,21" gloss="detail" />
+<sense id="5" wordnet="4,6" gloss="degree, level, stage" />
+<sense id="6" wordnet="8,15,19,20" gloss="sharp tip" />
+<sense id="7" wordnet="10" gloss="game scoring" />
+<sense id="8" wordnet="11" gloss="cape" />
+<sense id="9" wordnet="18" gloss="punctuation mark" />
+<sense id="10" wordnet="16" gloss="point" />
+<sense id="11" wordnet="22" gloss="gunpoint" />
+<sense id="12" wordnet="23" gloss="wall socket" />
+<sense id="13" wordnet="24" gloss="breaker point" />
+<sense id="14" wordnet="" gloss="fraction" />
+</lexelt>
+
+<lexelt item="affect.v" num="3">
+<sense id="1" wordnet="1,2,3" gloss="have an effect or impact on" />
+<sense id="2" wordnet="5" gloss="give an impression" />
+<sense id="3" wordnet="4" gloss="take on an appearance or position" />
+</lexelt>
+
+<lexelt item="hope.v" num="1">
+<sense id="1" wordnet="1,2,3" gloss="desire, wish, plan, intend" />
+</lexelt>
+
+<lexelt item="hold.v" num="10">
+<sense id="1" wordnet="3,15,18,35" gloss="physically grasp, position, or support something" />
+<sense id="2" wordnet="4,9,14,16,17,26,27,31,33,34" gloss="stop or restrain something; keep something from being used" />
+<sense id="3" wordnet="2,10,32" gloss="maintain one's state, position, or physical integrity" />
+<sense id="4" wordnet="7,11,12,13,24,36" gloss="maintain an attitude, belief, or opinion" />
+<sense id="5" wordnet="5,6,22,23" gloss="possess or control something, e.g., money, position of authority, honor" />
+<sense id="6" wordnet="8,19,20,25,29" gloss="contain or accommodate" />
+<sense id="7" wordnet="21,30" gloss="be relevant or applicable" />
+<sense id="8" wordnet="1" gloss="conduct a social event" />
+<sense id="9" wordnet="28" gloss="block or cover protectively (by grasping)" />
+<sense id="10" wordnet="28" gloss="idioms" />
+</lexelt>
+
+<lexelt item="job.n" num="10">
+<sense id="1" wordnet="1" gloss="paid position" />
+<sense id="2" wordnet="4,2,3" gloss="task" />
+<sense id="3" wordnet="5" gloss="being at work" />
+<sense id="4" wordnet="6" gloss="object being worked on" />
+<sense id="5" wordnet="7" gloss="a difficulty" />
+<sense id="6" wordnet="8" gloss="destruction" />
+<sense id="7" wordnet="9" gloss="robbery" />
+<sense id="8" wordnet="10,11" gloss="Biblical figure" />
+<sense id="9" wordnet="13" gloss="Biblical book" />
+<sense id="10" wordnet="12" gloss="computer program" />
+</lexelt>
+
+<lexelt item="explain.v" num="2">
+<sense id="1" wordnet="1,2" gloss="clarify, make comprehensible, describe" />
+<sense id="2" wordnet="3" gloss="be a reason, cause, or justification of" />
+</lexelt>
+
+<lexelt item="describe.v" num="3">
+<sense id="1" wordnet="1,2,3" gloss="give an account or convey impression of" />
+<sense id="2" wordnet="" gloss="depict or represent something pictorially" />
+<sense id="3" wordnet="4" gloss="trace the form or outline of" />
+</lexelt>
+
+<lexelt item="effect.n" num="5">
+<sense id="1" wordnet="1,4" gloss="consequence" />
+<sense id="2" wordnet="2,5" gloss="general impression" />
+<sense id="3" wordnet="3" gloss="validity" />
+<sense id="4" wordnet="6" gloss="theme" />
+<sense id="5" wordnet="" gloss="property" />
+</lexelt>
+
+<lexelt item="development.n" num="3">
+<sense id="1" wordnet="1,2,4,7,8" gloss="the process" />
+<sense id="2" wordnet="5" gloss="the end product" />
+<sense id="3" wordnet="3,6" gloss="the act of developing" />
+</lexelt>
+
+<lexelt item="position.n" num="7">
+<sense id="1" wordnet="1,2,7,8,10" gloss="spatial location or placement of something/someone" />
+<sense id="2" wordnet="3,13,14,16" gloss="opinion, attitude, stance, point of view, assumption" />
+<sense id="3" wordnet="11" gloss="context, situation or circumstance" />
+<sense id="4" wordnet="5" gloss="financial holdings of an investor, a financial market commitment" />
+<sense id="5" wordnet="6,9,15" gloss="profession, job, function includes position in team sports)" />
+<sense id="6" wordnet="5,12" gloss="rank in a sequence, standing in relation to others" />
+<sense id="7" wordnet="4" gloss="a posture or arrangement, usually intentional" />
+</lexelt>
+
+<lexelt item="allow.v" num="2">
+<sense id="1" wordnet="1,2,3,7,8,10" gloss="let, make possible, give permission" />
+<sense id="2" wordnet="4,5,6,9" gloss="provide for, allot" />
+</lexelt>
+
+<lexelt item="prepare.v" num="2">
+<sense id="1" wordnet="1,2,3,4,3" gloss="to put together, assemble, concoct" />
+<sense id="2" wordnet="5,6,7" gloss="to make ready, fit out" />
+</lexelt>
+
+<lexelt item="management.n" num="2">
+<sense id="1" wordnet="1" gloss="overseeing or directing" />
+<sense id="2" wordnet="2" gloss="the people in charge" />
+</lexelt>
+
+<lexelt item="express.v" num="3">
+<sense id="1" wordnet="1,2,3,4" gloss="convey, show, state in some form" />
+<sense id="2" wordnet="5" gloss="press out physically" />
+<sense id="3" wordnet="6" gloss="to mail or post something via a rapid method" />
+</lexelt>
+
+<lexelt item="rush.v" num="4">
+<sense id="1" wordnet="1,4" gloss="move forward, act at speed, pelt along" />
+<sense id="2" wordnet="2,3,6,7" gloss="make someone or something hasten, induce or stimulate" />
+<sense id="3" wordnet="5" gloss="run with a ball" />
+<sense id="4" wordnet="" gloss="meet or get to know members of fraternity or sorority" />
+</lexelt>
+
+<lexelt item="exist.v" num="2">
+<sense id="1" wordnet="1" gloss="be" />
+<sense id="2" wordnet="2" gloss="subsist, survive" />
+</lexelt>
+
+<lexelt item="grant.v" num="3">
+<sense id="1" wordnet="1,2,4,5,7" gloss="give permission or privilege, bestow officially as judged due" />
+<sense id="2" wordnet="3" gloss="willing to admit as truth" />
+<sense id="3" wordnet="6" gloss="relinquish (physical) control" />
+</lexelt>
+
+<lexelt item="kill.v" num="9">
+<sense id="1" wordnet="1,3,5,10" gloss="cause death, be fatal" />
+<sense id="2" wordnet="6,13" gloss="cause great pain or anguish" />
+<sense id="3" wordnet="4,12,15" gloss="eliminate" />
+<sense id="4" wordnet="2" gloss="thwart" />
+<sense id="5" wordnet="7" gloss="overwhelm" />
+<sense id="6" wordnet="" gloss="to strain oneself to the limit" />
+<sense id="7" wordnet="14" gloss="cease operation of" />
+<sense id="8" wordnet="8,9" gloss="hit with great force" />
+<sense id="9" wordnet="11" gloss="drink down" />
+</lexelt>
+
+<lexelt item="propose.v" num="3">
+<sense id="1" wordnet="1,2,4" gloss="put forward for consideration" />
+<sense id="2" wordnet="3" gloss="intend" />
+<sense id="3" wordnet="5" gloss="ask for hand in marriage" />
+</lexelt>
+
+<lexelt item="area.n" num="5">
+<sense id="1" wordnet="1" gloss="Geographic region" />
+<sense id="2" wordnet="2" gloss="social sphere, scope of activity or interest" />
+<sense id="3" wordnet="4,5" gloss="a circumscribed place with a specific characteristic" />
+<sense id="4" wordnet="6" gloss="2D bounded space in geometry" />
+<sense id="5" wordnet="3" gloss="field of study, knowledge domain" />
+</lexelt>
+
+<lexelt item="remember.v" num="6">
+<sense id="1" wordnet="1,2,3" gloss="recall to mind or keep in mind a piece of information" />
+<sense id="2" wordnet="7" gloss="exercise or have power of memory" />
+<sense id="3" wordnet="8" gloss="commemorate a special person, event, or occasion" />
+<sense id="4" wordnet="4,5" gloss="consider, include" />
+<sense id="5" wordnet="6" gloss="give greetings from" />
+<sense id="6" wordnet="" gloss="recover one's good manners after behaving badly" />
+</lexelt>
+
+<lexelt item="examine.v" num="3">
+<sense id="1" wordnet="1" gloss="study, investigate, or analyze in detail" />
+<sense id="2" wordnet="2" gloss="inspect something or somebody/look at" />
+<sense id="3" wordnet="3,4,5" gloss="test someone by questioning; interrogate" />
+</lexelt>
+
+<lexelt item="say.v" num="5">
+<sense id="1" wordnet="1,2,5,6,7,9" gloss="an agent expresses or communicates a concept through words" />
+<sense id="2" wordnet="10,11" gloss="to indicate something through a physical, non-verbal medium" />
+<sense id="3" wordnet="3" gloss="express a supposition, occurs with the expression 'let us'" />
+<sense id="4" wordnet="4" gloss="a written document's specific wording" />
+<sense id="5" wordnet="8" gloss="physical act of articulating or pronouncing speech sounds" />
+</lexelt>
+
+<lexelt item="join.v" num="4">
+<sense id="1" wordnet="2,4,5" gloss="connect, link or unite separate things, either physically or abstractly" />
+<sense id="2" wordnet="1" gloss="enlist or accept membership within some group or organization" />
+<sense id="3" wordnet="3" gloss="participate with someone else in some event" />
+<sense id="4" wordnet="3" gloss="accompany or meet up " />
+</lexelt>
+
+<lexelt item="negotiate.v" num="3">
+<sense id="1" wordnet="1" gloss="discuss terms of agreement" />
+<sense id="2" wordnet="2" gloss="navigate or manage something successfully" />
+<sense id="3" wordnet="" gloss="sell or transfer ownership" />
+</lexelt>
+
+<lexelt item="maintain.v" num="4">
+<sense id="1" wordnet="1,2,5,6,9" gloss="hold in a given state or situation" />
+<sense id="2" wordnet="4,8" gloss="assert a proposition or belief" />
+<sense id="3" wordnet="7,10" gloss="keep a reocrd" />
+<sense id="4" wordnet="3" gloss="provide care and sustenance for someone" />
+</lexelt>
+
+<lexelt item="condition.n" num="4">
+<sense id="1" wordnet="1,2,5" gloss="state" />
+<sense id="2" wordnet="3,4" gloss="stipulation" />
+<sense id="3" wordnet="6" gloss="consideration" />
+<sense id="4" wordnet="7" gloss="not the control" />
+</lexelt>
+
+<lexelt item="believe.v" num="2">
+<sense id="1" wordnet="1,2,3,5" gloss="accept something as true or probable, based on evidence and reasoning." />
+<sense id="2" wordnet="4" gloss="accept a doctrine, not necessarily nn the basis of reason or logic" />
+</lexelt>
+
+<lexelt item="hour.n" num="4">
+<sense id="1" wordnet="1" gloss="60 minutes" />
+<sense id="2" wordnet="2" gloss="time of day" />
+<sense id="3" wordnet="3" gloss="memorable period" />
+<sense id="4" wordnet="4" gloss="distance" />
+</lexelt>
+
+<lexelt item="president.n" num="3">
+<sense id="1" wordnet="1,4,5" gloss="chair" />
+<sense id="2" wordnet="3" gloss="head of a country" />
+<sense id="3" wordnet="2,6" gloss="head of U.S." />
+</lexelt>
+
+</dictmap>

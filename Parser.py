@@ -10,12 +10,17 @@ class Word:
         self.word = word
         self.pos = pos
         self.sense_id_map = {}
+        self.senses = {} # Senses from dictionary.xml
     
     def add_context(self, sense, context): 
         if sense in self.sense_id_map:
             self.sense_id_map[sense].append(Context(context))
         else:
             self.sense_id_map[sense] = [Context(context)]
+            
+    # Add sense to word, defined by dictionary.xml
+    def add_sense(self, sense):
+        self.senses[sense.id] = sense
 
     def toString(self):
         s = self.word + " : " + self.pos + "\n"
@@ -23,6 +28,13 @@ class Word:
             for context in context_list:
                 s += str(counter) + " " + context.toString() + "\n"
         return s        
+
+# Senses for dictionary.xml words
+class Sense:
+    def __init__(self,id,wordnet_ids,gloss):
+        self.id = id
+        self.wordnet_ids = wordnet_ids # LIST OF CHARS
+        self.gloss = gloss
 
 class Context:
     def __init__(self, context):
