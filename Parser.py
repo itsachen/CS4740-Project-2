@@ -59,7 +59,8 @@ class Context:
         return s
 
 
-def parse_test_data(filename):
+#wordmap is a mapping of word strings to word objects
+def parse_train_data(filename):
     word_map = {}
     tokenized_sentence_list = []
     with open(filename) as f:
@@ -83,6 +84,23 @@ def parse_test_data(filename):
 
     return word_map, tokenized_sentence_list
 
+def parse_train_data(filename):
+    unclassified_word_list = []
+    with open(filename) as f:
+        for line in f:
+            parts = re.split(' \| ', line)
+            word = re.split('\.', parts[0])[0]
+            pos = re.split('\.', parts[0])[1]
+            sense = parts[1]
+            context = parts[2]
+
+            word_object = Word(word, pos)
+            word_object.add_context(0,context)
+            word_list.append(word_object)
+
+    return unclassified_word_list
+
+
 # inverse document frequency is defined as the total number of documents in the corpus 
 # divided by the number of total number of documents including that word.
 def get_idf(tokenized_sentence_list):
@@ -99,8 +117,3 @@ def get_idf(tokenized_sentence_list):
         word_map[key] = l / word_map[key]
     return word_map
 
-
-
-
-word_map, tokenized_sentence_list = parse_test_data(train_file)
-print get_idf(tokenized_sentence_list)
