@@ -63,11 +63,13 @@ class Context:
 def parse_train_data(filename):
     word_map = {}
     tokenized_sentence_list = []
+    i = 0
     with open(filename) as f:
         for line in f:
             parts = re.split(' \| ', line)
-            word = re.split('\.', parts[0])[0]
-            pos = re.split('\.', parts[0])[1]
+            splitByPeriod = re.split('\.', parts[0])
+            word = splitByPeriod[0]
+            pos = splitByPeriod[1]
             sense = parts[1]
             context = parts[2]
 
@@ -83,6 +85,20 @@ def parse_train_data(filename):
             tokenized_sentence_list.append(tokenized_sentence)
 
     return word_map, tokenized_sentence_list
+    
+def parse_senses_from_file(filename, outputFile):
+    word_map = {}
+    tokenized_sentence_list = []
+    s = ""
+    text_file = open(outputFile, "w")
+    with open(filename) as f:
+        for line in f:
+            parts = re.split(' \| ', line)
+            sense = parts[1]
+            text_file.write(sense + "\n")
+    text_file.close()
+
+    return
 
 def parse_train_data(filename):
     unclassified_word_list = []
@@ -117,3 +133,8 @@ def get_idf(tokenized_sentence_list):
         word_map[key] = l / word_map[key]
     return word_map
 
+
+
+
+#word_map, tokenized_sentence_list = parse_test_data(train_file)
+#print get_idf(tokenized_sentence_list)
