@@ -65,10 +65,6 @@ def parse_test_data(filename):
     i = 0
     with open(filename) as f:
         for line in f:
-            i+=1
-            if i%100 == 0:
-                print i
-                
             parts = re.split(' \| ', line)
             splitByPeriod = re.split('\.', parts[0])
             word = splitByPeriod[0]
@@ -122,5 +118,5 @@ def get_idf(tokenized_sentence_list):
 
 
 
-word_map, tokenized_sentence_list = parse_test_data(train_file)
+#word_map, tokenized_sentence_list = parse_test_data(train_file)
 #print get_idf(tokenized_sentence_list)
