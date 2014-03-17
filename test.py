@@ -1,3 +1,4 @@
+import sys
 test_file = "validation_data.data"
 
 def get_results(testFile, outFile):
@@ -17,3 +18,5 @@ def get_results(testFile, outFile):
             numCorrect+=1
         total+=1
     return float(numCorrect)/total
+
+print get_results(sys.argv[1], sys.argv[2])
