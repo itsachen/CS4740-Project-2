@@ -100,7 +100,7 @@ def parse_senses_from_file(filename, outputFile):
 
     return
 
-def parse_train_data(filename):
+def parse_test_data(filename):
     unclassified_word_list = []
     with open(filename) as f:
         for line in f:
