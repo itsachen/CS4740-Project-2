@@ -4,7 +4,7 @@ import random
 
 def most_common_baseline(word_map):
     text_file = open("mostCommon.txt", "w")
-    with open("validation_data.data") as f:
+    with open("test_data.data") as f:
         for line in f:
             parts = re.split(' \| ', line)
             splitByPeriod = re.split('\.', parts[0])
@@ -16,7 +16,7 @@ def most_common_baseline(word_map):
                 if len(value) > mostCommonSenseCount:
                     mostCommonSense = key
                     mostCommonSenseCount = len(value)
-            text_file.write(key + "\n")
+            text_file.write(mostCommonSense + "\n")
     text_file.close()
     
 def random_baseline(word_map):
@@ -34,6 +34,6 @@ def random_baseline(word_map):
             text_file.write(keyList[i] + "\n")
     text_file.close()
 
-word_map, _ = Parser.parse_test_data("training_data.data")
+word_map, _ = Parser.parse_train_data("training_data.data")
 most_common_baseline(word_map)
-random_baseline(word_map)
+#random_baseline(word_map)

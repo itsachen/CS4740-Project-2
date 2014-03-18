@@ -19,4 +19,15 @@ def get_results(testFile, outFile):
         total+=1
     return float(numCorrect)/total
 
-print get_results(sys.argv[1], sys.argv[2])
+
+def convert_results_to_submission(textFile, outputFile):
+    text_file = open(outputFile, "w")
+    text_file.write("Id,Prediction\n")
+    with open(textFile) as f:
+        i = 1
+        for line in f:
+            text_file.write(str(i) + "," + line)
+            i+=1
+    
+#print get_results(sys.argv[1], sys.argv[2])    
+convert_results_to_submission(sys.argv[1], sys.argv[2])
