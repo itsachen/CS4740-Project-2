@@ -15,6 +15,7 @@ def most_common_baseline(word_map):
             for key, value in sense_map.items():
                 if len(value) > mostCommonSenseCount:
                     mostCommonSense = key
+                    mostCommonSenseCount = len(value)
             text_file.write(key + "\n")
     text_file.close()
     
