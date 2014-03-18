@@ -124,10 +124,9 @@ def parse_test_data(filename):
 
             word_object = Word(word, pos)
             word_object.add_context(0,context)
-            word_list.append(word_object)
+            unclassified_word_list.append(word_object)
 
     return unclassified_word_list
-
 
 # inverse document frequency is defined as the total number of documents in the corpus 
 # divided by the number of total number of documents including that word.
