@@ -5,7 +5,8 @@ import ngram
 # tokenized sentence list is a 
 train_file = "training_data.data"
 test_file = "test_data.data"
-output_file = "supervised_output.data"
+vaildation_file = "validation_data.data"
+output_file = "supervised_output.csv"
 
 word_map, tokenized_sentence_list = parser.parse_train_data(train_file)
 unclassified_words = parser.parse_test_data(test_file)
@@ -90,11 +91,15 @@ def word_sense_disambiguation(unclassified_words, word_map):
 	return output
 
 def write_to_file(filename, prediction_list):
-    file_object = open(filename, 'w+')
+    file_object = open(filename, 'w+')    
+    file_object.write('Id,Prediction\n')
+    counter = 1
     for line in prediction_list:
-        file_object.write(line + '\n')
+        file_object.write(str(counter) + ",1" + '\n')
+        counter += 1
     file_object.close()
+    return len(prediction_list)
 
 wsd = word_sense_disambiguation(unclassified_words, word_map)
-write_to_file(output_file, wsd)
-print "done"
+print str(write_to_file(output_file, wsd))
+
