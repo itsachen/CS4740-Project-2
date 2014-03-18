@@ -31,10 +31,11 @@ class Word:
 
 # Senses for dictionary.xml words
 class Sense:
-    def __init__(self,id,wordnet_ids,gloss):
+    def __init__(self,id,wordnet_ids,gloss,examples):
         self.id = id
         self.wordnet_ids = wordnet_ids # LIST OF CHARS
-        self.gloss = gloss
+        self.gloss = gloss # List of lemmatized tokens
+        self.examples = examples # List of lists of lemmatized tokens
 
 class Context:
     def __init__(self, context):
