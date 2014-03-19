@@ -203,7 +203,7 @@ def write_to_file(filename, prediction_list):
     file_object.write('Id,Prediction\n')
     counter = 1
     for line in prediction_list:
-        file_object.write(str(counter) + ",1" + '\n')
+        file_object.write(str(counter) + "," + line + '\n')
         counter += 1
     file_object.close()
     return len(prediction_list)
