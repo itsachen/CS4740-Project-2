@@ -45,6 +45,7 @@ class Context:
         self.after_sentences = []
 
         prev_sentences1 = sentence_tokenizer.tokenize(context_split[0])
+        self.target = context_split[1]
         after_sentences1 = sentence_tokenizer.tokenize(context_split[2])
 
         self.prev_context = nltk.word_tokenize(prev_sentences1.pop())

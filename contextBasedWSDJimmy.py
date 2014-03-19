@@ -3,12 +3,18 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import wordnet as wn
 import test
 
+#Add context from previous sentences
+#Add cooccurrence features?
+#add lemmatizer matches target
+
 train_file = "training_data.data"
 test_file = "test_data.data"
 validation_file = "validation_data.data"
 output_file = "supervised_output.csv"
 lmtzr = WordNetLemmatizer()
+
 NUM_NGRAMS_OBSERVED = 5
+NUM_COMMON_WORDS = 5
 
 word_map, tokenized_sentence_list = Parser.parse_train_data(train_file)
 unclassified_words = Parser.parse_test_data(test_file)
@@ -34,6 +40,27 @@ def get_sense_probability(word_map):
             sense_probabiltiy[sense] = float(len(context_list)) / counter
         word_to_sense_probability_map[word_object.word] = sense_probabiltiy
     return word_to_sense_probability_map
+ 
+def get_target_probability(word_map):
+    word_to_sense_to_target_probability_map = {}
+    for word_object in word_map.values():
+        sense_to_target_count_map = {}
+        for sense, context_list in word_object.sense_id_map.items():
+            count = 1
+            if sense not in sense_to_target_count_map:
+                sense_to_target_count_map[sense] = {}
+            for context in context_list:
+                count +=1
+                target = context.target
+                if target in sense_to_target_count_map[sense]:
+                    sense_to_target_count_map[sense][target] += 1
+                else:
+                    sense_to_target_count_map[sense][target] = 1
+            for target in sense_to_target_count_map[sense]:
+                sense_to_target_count_map[sense][target] /= float(count + 1)
+            sense_to_target_count_map[sense]['<UNK>'] = 1 / float(count + 1)
+        word_to_sense_to_target_probability_map[word_object.word] = sense_to_target_count_map
+    return word_to_sense_to_target_probability_map
 
 #conside prev and after contexts the same for now
 def create_unigram_from_context(word_map):
@@ -99,6 +126,7 @@ def create_unigram_from_context(word_map):
 
 def score_validation_set(unclassified_words, unigram_model, word_map, outputFile):
     word_to_sense_probability_map = get_sense_probability(word_map)
+    target_word_probability_map = get_target_probability(word_map)
     text_file = open("output.txt", "w")
     for word_object in unclassified_words:
         bestSense = 0
@@ -111,7 +139,7 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
             for i in range(len(prev)-NUM_NGRAMS_OBSERVED-1, len(prev)-1):
                 unigram_probability_left = unigram_probability['left']
                 if i < 0 :
-                    probability *= unigram_probability_left['<UNK>']
+                    #probability *= unigram_probability_left['<UNK>']
                     continue
                 token = lmtzr.lemmatize(prev[i])
                 if token in unigram_probability_left:
@@ -121,13 +149,17 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
             for i in range(len(after)-NUM_NGRAMS_OBSERVED-1, len(after)-1):
                 unigram_probability_right = unigram_probability['right']
                 if i < 0 :
-                    probability *= unigram_probability_right['<UNK>']
+                    #probability *= unigram_probability_right['<UNK>']
                     continue
                 token = lmtzr.lemmatize(after[i])
                 if token in unigram_probability_right:
                     probability *= unigram_probability_right[token]
                 else:
                     probability *= unigram_probability_right['<UNK>']
+            if context.target in target_word_probability_map[word_object.word][sense]:
+                probability *= target_word_probability_map[word_object.word][sense][context.target]
+            else:
+                probability *= target_word_probability_map[word_object.word][sense]['<UNK>']
             if probability > bestProbability:
                 bestProbability = probability
                 bestSense = sense
