@@ -30,4 +30,4 @@ def convert_results_to_submission(textFile, outputFile):
             i+=1
     
 #print get_results(sys.argv[1], sys.argv[2])    
-convert_results_to_submission(sys.argv[1], sys.argv[2])
+#convert_results_to_submission(sys.argv[1], sys.argv[2])

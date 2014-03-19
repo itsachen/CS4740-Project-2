@@ -1,6 +1,7 @@
 import Parser
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import wordnet as wn
+import test
 
 train_file = "training_data.data"
 test_file = "test_data.data"
@@ -45,16 +46,18 @@ def create_unigram_from_context(word_map):
             wordSet = set()
             if not sense in word_to_sense_to_unigram_counts[word_object.word]:
                 word_to_sense_to_unigram_counts[word_object.word][sense] = {}
+                word_to_sense_to_unigram_counts[word_object.word][sense]['left'] = {}
+                word_to_sense_to_unigram_counts[word_object.word][sense]['right'] = {}
             for context in context_list :
                 prev, after = context.prev_context, context.after_context
                 for i in range(len(prev)-NUM_NGRAMS_OBSERVED -1, len(prev)-1):
                     if i < 0 :
                         continue
                     token = lmtzr.lemmatize(prev[i])
-                    if token in word_to_sense_to_unigram_counts[word_object.word][sense]:
-                        word_to_sense_to_unigram_counts[word_object.word][sense][token] += 1
+                    if token in word_to_sense_to_unigram_counts[word_object.word][sense]['left']:
+                        word_to_sense_to_unigram_counts[word_object.word][sense]['left'][token] += 1
                     else:
-                        word_to_sense_to_unigram_counts[word_object.word][sense][token] = 1
+                        word_to_sense_to_unigram_counts[word_object.word][sense]['left'][token] = 1
                         if token not in wordSet :
                             wordSet.add(token)
                             numWords +=1
@@ -62,10 +65,10 @@ def create_unigram_from_context(word_map):
                     if i < 0 :
                         continue
                     token = lmtzr.lemmatize(after[i])
-                    if token in word_to_sense_to_unigram_counts[word_object.word][sense]:
-                        word_to_sense_to_unigram_counts[word_object.word][sense][token] += 1
+                    if token in word_to_sense_to_unigram_counts[word_object.word][sense]['right']:
+                        word_to_sense_to_unigram_counts[word_object.word][sense]['right'][token] += 1
                     else:
-                        word_to_sense_to_unigram_counts[word_object.word][sense][token] = 1
+                        word_to_sense_to_unigram_counts[word_object.word][sense]['right'][token] = 1
                         if token not in wordSet :
                             wordSet.add(token)
                             numWords +=1
@@ -74,20 +77,29 @@ def create_unigram_from_context(word_map):
         word_to_sense_to_unigram_prob[word_object.word] = {}
         for sense, _ in word_object.sense_id_map.items():
             word_to_sense_to_unigram_prob[word_object.word][sense] = {}
+            word_to_sense_to_unigram_prob[word_object.word][sense]['left'] = {}
             count = 0
-            for token in word_to_sense_to_unigram_counts[word_object.word][sense]:
-                count += word_to_sense_to_unigram_counts[word_object.word][sense][token]
+            for token in word_to_sense_to_unigram_counts[word_object.word][sense]['left']:
+                count += word_to_sense_to_unigram_counts[word_object.word][sense]['left'][token]
                 #if word_to_sense_to_unigram_counts[word_object.word][sense][token] == 1 :
-            for token in word_to_sense_to_unigram_counts[word_object.word][sense]:
-                word_to_sense_to_unigram_prob[word_object.word][sense][token] = (word_to_sense_to_unigram_counts[word_object.word][sense][token] + 1) / (float(count) + numWords + 1)
-            word_to_sense_to_unigram_prob[word_object.word][sense]['<UNK>'] = 1 / float(numWords)
-            #print word_to_sense_to_unigram_prob[word_object.word][sense]['<UNK>'] 
+            for token in word_to_sense_to_unigram_counts[word_object.word][sense]['left']:
+                word_to_sense_to_unigram_prob[word_object.word][sense]['left'][token] = (word_to_sense_to_unigram_counts[word_object.word][sense]['left'][token] + 1) / (float(count) + numWords + 1)
+            word_to_sense_to_unigram_prob[word_object.word][sense]['left']['<UNK>'] = 1 / float(numWords)
+            
+            word_to_sense_to_unigram_prob[word_object.word][sense]['right'] = {}
+            count = 0
+            for token in word_to_sense_to_unigram_counts[word_object.word][sense]['right']:
+                count += word_to_sense_to_unigram_counts[word_object.word][sense]['right'][token]
+                #if word_to_sense_to_unigram_counts[word_object.word][sense][token] == 1 :
+            for token in word_to_sense_to_unigram_counts[word_object.word][sense]['right']:
+                word_to_sense_to_unigram_prob[word_object.word][sense]['right'][token] = (word_to_sense_to_unigram_counts[word_object.word][sense]['right'][token] + 1) / (float(count) + numWords + 1)
+            word_to_sense_to_unigram_prob[word_object.word][sense]['right']['<UNK>'] = 1 / float(numWords)
                 
     return word_to_sense_to_unigram_prob
 
-def score_validation_set(unclassified_words, unigram_model, word_map):
+def score_validation_set(unclassified_words, unigram_model, word_map, outputFile):
     word_to_sense_probability_map = get_sense_probability(word_map)
-    text_file = open("jimmy.txt", "w")
+    text_file = open("output.txt", "w")
     for word_object in unclassified_words:
         bestSense = 0
         bestProbability = 0
@@ -97,23 +109,25 @@ def score_validation_set(unclassified_words, unigram_model, word_map):
             context = word_object.sense_id_map[0][0]
             prev, after = context.prev_context, context.after_context
             for i in range(len(prev)-NUM_NGRAMS_OBSERVED-1, len(prev)-1):
+                unigram_probability_left = unigram_probability['left']
                 if i < 0 :
-                    probability *= unigram_probability['<UNK>']
+                    probability *= unigram_probability_left['<UNK>']
                     continue
                 token = lmtzr.lemmatize(prev[i])
-                if token in unigram_probability:
-                    probability *= unigram_probability[token]
+                if token in unigram_probability_left:
+                    probability *= unigram_probability_left[token]
                 else:
-                    probability *= unigram_probability['<UNK>']
+                    probability *= unigram_probability_left['<UNK>']
             for i in range(len(after)-NUM_NGRAMS_OBSERVED-1, len(after)-1):
+                unigram_probability_right = unigram_probability['right']
                 if i < 0 :
-                    probability *= unigram_probability['<UNK>']
+                    probability *= unigram_probability_right['<UNK>']
                     continue
                 token = lmtzr.lemmatize(after[i])
-                if token in unigram_probability:
-                    probability *= unigram_probability[token]
+                if token in unigram_probability_right:
+                    probability *= unigram_probability_right[token]
                 else:
-                    probability *= unigram_probability['<UNK>']
+                    probability *= unigram_probability_right['<UNK>']
             if probability > bestProbability:
                 bestProbability = probability
                 bestSense = sense
@@ -125,4 +139,5 @@ print get_sense_count(word_map)
 print get_sense_probability(word_map)
 print "unigram"
 unigram_model = create_unigram_from_context(word_map)
-score_validation_set(unclassified_words, unigram_model, word_map)
+score_validation_set(unclassified_words, unigram_model, word_map, "output.txt")
+test.convert_results_to_submission("output.txt", "outputSubmission.txt")
