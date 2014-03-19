@@ -36,3 +36,7 @@ nosetests.xml
 .pydevproject
 
 *.swp
+
+dictionary_validate.data
+
+dictionary_results.txt

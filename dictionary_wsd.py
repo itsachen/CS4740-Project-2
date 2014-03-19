@@ -2,10 +2,16 @@ import nltk
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import wordnet as wn
 import xml.etree.ElementTree as ET
-from Parser import Word, Sense, get_idf
+from Parser import Word, Sense, get_idf, parse_test_data, parse_train_data
+from contextBasedWSD import write_to_file
+import re
 
 lmtzr = WordNetLemmatizer()
 LEMMATIZE = False # Lemmatize gloss and examples
+
+test_file = "test_data.data"
+vaildation_file = "validation_data.data"
+output_file = "dictionary_output.csv"
 
 class Dictionary:
     def __init__(self):
@@ -51,6 +57,38 @@ class Dictionary:
                     word_object.add_sense(sense)
                 self.dictionary[word_object.word] = word_object
 
+def word_sense_disambiguation(dictionary, dataset=test_file):
+    IDF_FEATURE_FILTER_THRESHOLD = 6.0
+    output = []
+
+    unclassified_words = parse_test_data(dataset)
+
+    # Create idf from unclassified word contexts
+    unclassified_word_contexts = [[]]
+    for word in unclassified_words:
+        context = word.sense_id_map[0][0]
+        unclassified_word_contexts.append(context.prev_context + context.after_context)
+    idf_map = get_idf(unclassified_word_contexts)
+
+    count = 0
+    for word in unclassified_words:
+        count += 1
+        print count
+        context = word.sense_id_map[0][0]
+        unfiltered_features = context.prev_context + context.after_context
+        features = []
+        # Filter features based on IDF
+        for feature in unfiltered_features:
+            if idf_map[feature] > IDF_FEATURE_FILTER_THRESHOLD:
+                features.append(feature)
+        if len(features) == 0:
+            print "Empty."
+        # print features
+        best_sense = find_best_sense(dictionary, word, features)
+        # print best_sense
+        output.append(best_sense)
+    return output
+
 # Target is a Word object
 # Features should be a list of lemmatized strings (carry weight?)
 def find_best_sense(dictionary,target,features):
@@ -66,7 +104,11 @@ def find_best_sense(dictionary,target,features):
         feature_signature = []
 
         for synset in feature_word_synsets:
-            lemma, pos, sense_num = synset.name.split('.')
+            if len(synset.name.split('.')) > 3:
+                print "Break!"
+                break
+            else:
+                lemma, pos, sense_num = synset.name.split('.')
             synset_definition = []
             if LEMMATIZE:
                 tokenized_tagged_definition = nltk.pos_tag(nltk.word_tokenize(synset.definition))
@@ -112,7 +154,7 @@ def find_best_sense(dictionary,target,features):
         if score > max_score:
             max_score = score
             best_sense = sense_id
-    print max_score
+    # print best_sense
     return best_sense
 
 # Overlaps of size n are weighted in a way...
@@ -156,5 +198,23 @@ def get_pos(x):
 
 # Test
 d = Dictionary()
+print "Building dictionary.."
 d.build_from_xml()
+print "Starting disambiguation.."
+results = word_sense_disambiguation(d)
+write_to_file(output_file, results)
 # print find_best_sense(d,d['president'], "bills constitution provisions congress laws violate office".split(' '))
+
+# Validation testing
+# results = word_sense_disambiguation(d,vaildation_file)
+# correct = 0.0
+# with open(vaildation_file) as f:
+#     i = 0
+#     for line in f:
+#         parts = re.split(' \| ', line)
+#         sense = parts[1]
+#         if sense == results[i]:
+#             correct += 1.0
+#         i += 1
+# print correct / float(len(results))
+
