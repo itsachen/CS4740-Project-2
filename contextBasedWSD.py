@@ -10,10 +10,55 @@ output_file = "supervised_output.csv"
 
 word_map, tokenized_sentence_list = parser.parse_train_data(train_file)
 unclassified_words = parser.parse_test_data(test_file)
+idf = parser.get_idf(tokenized_sentence_list)
 
 unagram_weight = 1.0
 bigram_weight = 1.0
+idf_cutoff = 2.0
 
+def get_sense_count(word_map):
+    word_to_sense_to_count_map = {}
+    for word_object in word_map.values():
+        sense_to_count_map = {}
+        for sense, context_list in word_object.sense_id_map.items():
+            sense_to_count_map[sense] = float(len(context_list))
+        word_to_sense_to_count_map[word_object.word] = sense_to_count_map
+    return word_to_sense_to_count_map
+
+def get_sense_probability(word_map):
+    word_to_sense_probability_map = {}
+    for word_object in word_map.values():
+        sense_probabiltiy = {}
+        counter = 0.0
+        for sense, context_list in word_object.sense_id_map.items():
+            counter += float(len(context_list))
+        for sense, context_list in word_object.sense_id_map.items():
+            sense_probabiltiy[sense] = float(len(context_list)) / counter
+        word_to_sense_probability_map[word_object.word] = sense_probabiltiy
+    return word_to_sense_probability_map
+
+def get_word_count(word_map):
+    context_word_count = {}
+    global_word_count = {}
+
+    for word_object in word_map.values():
+        sense_to_word_count_map = {}
+        for sense, context_list in word_object.sense_id_map.items():
+            word_count_map = {}
+            for context in context_list:
+                word_list = context.prev_sentences + context.prev_context + context.after_context + context.after_sentences
+                for token in set(word_list):
+                    if token in word_count_map:
+                        word_count_map[token] += 1.0
+                    else:
+                        word_count_map[token] = 1.0
+                    if token in global_word_count:
+                        global_word_count[token] += 1.0
+                    else:
+                        global_word_count[token] = 1.0
+            sense_to_word_count_map[sense] = word_count_map    
+        context_word_count[word_object.word] = sense_to_word_count_map
+    return context_word_count, global_word_count
 
 # from a word_map creates a map of words to senses
 def get_ngram_map(word_map, n):
@@ -34,7 +79,7 @@ def create_ngram_from_context_list(word, context_list, n):
         tokenized_context.extend(context.after_context)
         tokenized_context.append("<e>")
         tokenized_context_list.append(tokenized_context)
-    probabilityTable, prob, wordSet = ngram.create_smoothed_ngram_probability_table(tokenized_context_list,n)
+    probabilityTable, _, _ = ngram.create_smoothed_ngram_probability_table(tokenized_context_list,n)
     return probabilityTable
 
 def get_ngram_probability(word, context, ngram_map, n):
@@ -55,6 +100,18 @@ def get_ngram_probability(word, context, ngram_map, n):
             for token in tokenized_context:
                 if token in ngram:
                     accumulated_probability[sense] *= ngram[token]
+                else:
+                    if "<UNK>" in ngram:
+                        accumulated_probability[sense] *= ngram["<UNK>"]
+                    else:
+                        min_prob = 1.0
+                        for token, prob in ngram:
+                            if prob < min_prob:
+                                min_prob = prob
+                        ngram["<UNK>"] = min_prob
+                        accumulated_probability[sense] *= min_prob
+
+
     else:
         for sense, ngram in word_ngram.items():
             prev_token = None;
@@ -62,12 +119,26 @@ def get_ngram_probability(word, context, ngram_map, n):
                 if prev_token == None:
                     prev_token = token
                 else:
-                    if prev_token in ngram and token in ngram[prev_token]:
-                        accumulated_probability[sense] *= ngram[prev_token][token] 
-                        prev_token = token
+                    if prev_token in ngram:
+                        if token in ngram[prev_token]:
+                            accumulated_probability[sense] *= ngram[prev_token][token] 
+                            prev_token = token
+                        else: 
+                            token = "<UNK>"
+                            accumulated_probability[sense] *= ngram[prev_token][token] 
+                            prev_token = token
+                    else: 
+                        prev_token = "<UNK>"
+                        if token in ngram[prev_token]:
+                            accumulated_probability[sense] *= ngram[prev_token][token] 
+                            prev_token = token
+                        else: 
+                            token = "<UNK>"
+                            accumulated_probability[sense] *= ngram[prev_token][token] 
+                            prev_token = token
     return accumulated_probability
 
-def word_sense_disambiguation(unclassified_words, word_map):
+def ngram_classifier(unclassified_words, word_map):
     output = []
 
     unagram = get_ngram_map(word_map, 1)
@@ -90,6 +161,43 @@ def word_sense_disambiguation(unclassified_words, word_map):
         output.append(current_sense)
     return output
 
+def wsd_classifier(unclassified_words, word_map):
+    output = []
+
+    sense_count = get_sense_count(word_map)
+    sense_probabiltiy = get_sense_probability(word_map)
+    context_word_count, global_word_count = get_word_count(word_map)
+
+    for word in unclassified_words:
+        sense_scores = {}
+
+        context = word.sense_id_map[0][0]
+        feature_list = context.prev_sentences + context.prev_context + context.after_context + context.after_sentences
+
+        trained_word = word_map[word.word]
+
+        for sense in trained_word.sense_id_map.keys():
+            sense_scores[sense] = 1.0
+
+        for feature in set(feature_list):
+            if feature in idf and idf[feature] > idf_cutoff:
+                for sense in trained_word.sense_id_map.keys():
+                    if feature in context_word_count[word.word][sense]:
+                        probabilty_feature_given_sense = context_word_count[word.word][sense][feature] / sense_count[word.word][sense]
+                        probabilty_sense = sense_probabiltiy[word.word][sense]
+                        probabilty_feature = global_word_count[feature]
+                        sense_scores[sense] *= probabilty_feature_given_sense * probabilty_sense / probabilty_feature
+
+        #determine output
+        current_max = 0.0
+        current_sense = 0
+        for sense, score in sense_scores.items():
+            if score >= current_max:
+                current_sense = sense
+                current_max = score
+        output.append(current_sense)
+    return output
+
 def write_to_file(filename, prediction_list):
     file_object = open(filename, 'w+')    
     file_object.write('Id,Prediction\n')
@@ -100,6 +208,6 @@ def write_to_file(filename, prediction_list):
     file_object.close()
     return len(prediction_list)
 
-wsd = word_sense_disambiguation(unclassified_words, word_map)
+wsd = wsd_classifier(unclassified_words, word_map)
 print str(write_to_file(output_file, wsd))
 
