@@ -11,9 +11,14 @@ output_file = "supervised_output.csv"
 word_map, tokenized_sentence_list = parser.parse_train_data(train_file)
 unclassified_words = parser.parse_test_data(test_file)
 idf = parser.get_idf(tokenized_sentence_list)
+feature_set = set({}) #initialized later
 
 unagram_weight = 1.0
 bigram_weight = 1.0
+
+within_sentence_weight = 2.0
+outside_sentence_weight = 1.0
+
 idf_cutoff = 2.0
 
 def get_sense_count(word_map):
@@ -24,6 +29,15 @@ def get_sense_count(word_map):
             sense_to_count_map[sense] = float(len(context_list))
         word_to_sense_to_count_map[word_object.word] = sense_to_count_map
     return word_to_sense_to_count_map
+
+def get_features(idf, tokenized_sentence_list):
+    feature_set = set({})
+
+    for sentence in tokenized_sentence_list:
+        for feature in sentence:
+            if idf[feature] > idf_cutoff and feature not in feature_set:
+                feature_set.add(feature)
+    return feature_set
 
 def get_sense_probability(word_map):
     word_to_sense_probability_map = {}
@@ -37,25 +51,26 @@ def get_sense_probability(word_map):
         word_to_sense_probability_map[word_object.word] = sense_probabiltiy
     return word_to_sense_probability_map
 
-def get_word_count(word_map):
+def get_word_count(word_map, tokenized_sentence_list):
     context_word_count = {}
     global_word_count = {}
+
+    for feature in feature_set:
+        global_word_count[feature] = 1.0
 
     for word_object in word_map.values():
         sense_to_word_count_map = {}
         for sense, context_list in word_object.sense_id_map.items():
             word_count_map = {}
+            for feature in feature_set:
+                word_count_map[feature] = 1.0
+
             for context in context_list:
                 word_list = context.prev_sentences + context.prev_context + context.after_context + context.after_sentences
-                for token in set(word_list):
-                    if token in word_count_map:
-                        word_count_map[token] += 1.0
-                    else:
-                        word_count_map[token] = 1.0
-                    if token in global_word_count:
-                        global_word_count[token] += 1.0
-                    else:
-                        global_word_count[token] = 1.0
+                for feature in set(word_list):
+                    if feature in feature_set:
+                        word_count_map[feature] += 1.0
+                        global_word_count[feature] += 1.0
             sense_to_word_count_map[sense] = word_count_map    
         context_word_count[word_object.word] = sense_to_word_count_map
     return context_word_count, global_word_count
@@ -166,27 +181,36 @@ def wsd_classifier(unclassified_words, word_map):
 
     sense_count = get_sense_count(word_map)
     sense_probabiltiy = get_sense_probability(word_map)
-    context_word_count, global_word_count = get_word_count(word_map)
+    context_word_count, global_word_count = get_word_count(word_map, tokenized_sentence_list)
 
     for word in unclassified_words:
         sense_scores = {}
 
         context = word.sense_id_map[0][0]
-        feature_list = context.prev_sentences + context.prev_context + context.after_context + context.after_sentences
-
+        outside_sentences_feature_list = context.prev_sentences + context.after_sentences
+        within_sentences_feature_list = context.prev_context + context.after_context
         trained_word = word_map[word.word]
 
         for sense in trained_word.sense_id_map.keys():
             sense_scores[sense] = 1.0
 
-        for feature in set(feature_list):
-            if feature in idf and idf[feature] > idf_cutoff:
+        for feature in set(outside_sentences_feature_list):
+            if feature in feature_set:
                 for sense in trained_word.sense_id_map.keys():
                     if feature in context_word_count[word.word][sense]:
                         probabilty_feature_given_sense = context_word_count[word.word][sense][feature] / sense_count[word.word][sense]
                         probabilty_sense = sense_probabiltiy[word.word][sense]
                         probabilty_feature = global_word_count[feature]
-                        sense_scores[sense] *= probabilty_feature_given_sense * probabilty_sense / probabilty_feature
+                        sense_scores[sense] *= outside_sentence_weight * probabilty_feature_given_sense * probabilty_sense / probabilty_feature
+
+        for feature in set(within_sentences_feature_list):
+            if feature in feature_set:
+                for sense in trained_word.sense_id_map.keys():
+                    if feature in context_word_count[word.word][sense]:
+                        probabilty_feature_given_sense = context_word_count[word.word][sense][feature] / sense_count[word.word][sense]
+                        probabilty_sense = sense_probabiltiy[word.word][sense]
+                        probabilty_feature = global_word_count[feature]
+                        sense_scores[sense] *= within_sentence_weight * probabilty_feature_given_sense * probabilty_sense / probabilty_feature
 
         #determine output
         current_max = 0.0
@@ -208,6 +232,7 @@ def write_to_file(filename, prediction_list):
     file_object.close()
     return len(prediction_list)
 
+feature_set = get_features(idf, tokenized_sentence_list)
 wsd = wsd_classifier(unclassified_words, word_map)
 print str(write_to_file(output_file, wsd))
 
