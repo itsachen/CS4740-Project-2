@@ -67,7 +67,14 @@ def word_sense_disambiguation(dictionary, dataset=test_file):
     unclassified_word_contexts = [[]]
     for word in unclassified_words:
         context = word.sense_id_map[0][0]
-        unclassified_word_contexts.append(context.prev_context + context.after_context)
+
+        if LEMMATIZE:
+            bar = nltk.pos_tag(context.prev_context + context.after_context)
+            foo = [lmtzr.lemmatize(x[0],get_pos(x)) for x in bar]
+        else:
+            foo = context.prev_context + context.after_context
+
+        unclassified_word_contexts.append(foo)
     idf_map = get_idf(unclassified_word_contexts)
 
     count = 0
@@ -75,7 +82,12 @@ def word_sense_disambiguation(dictionary, dataset=test_file):
         count += 1
         print count
         context = word.sense_id_map[0][0]
-        unfiltered_features = context.prev_context + context.after_context
+        unfiltered_features = []
+        if LEMMATIZE:
+            unfiltered_features_tagged = nltk.pos_tag(context.prev_context + context.after_context)
+            unfiltered_features = [lmtzr.lemmatize(x[0],get_pos(x)) for x in unfiltered_features_tagged]
+        else:
+            unfiltered_features = context.prev_context + context.after_context
         features = []
         # Filter features based on IDF
         for feature in unfiltered_features:
