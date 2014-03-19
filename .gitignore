@@ -40,3 +40,10 @@ nosetests.xml
 dictionary_validate.data
 
 dictionary_results.txt
+# Latex files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.synctex.gz
