@@ -36,3 +36,11 @@ nosetests.xml
 .pydevproject
 
 *.swp
+
+# Latex files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.synctex.gz
