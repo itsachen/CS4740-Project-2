@@ -27,7 +27,7 @@
 \addtolength{\boxlength}{-4mm}
 
 \begin{center}\framebox{\parbox{\boxlength}{{\bf
-CS 4740, Spring 2014 \hfill Project 1 Report}\\
+CS 4740, Spring 2014 \hfill Project 2 Report}\\
 Anthony Chen (apc52)\\ 
 James Feher (jkf49)\\ 
 Matthew Oey (mso32)
@@ -39,187 +39,45 @@ Matthew Oey (mso32)
 \begin{itemize}
     \item Anthony Chen 
         \begin{itemize}
-            \item Hotel review parser
-            \item Frequency table
-            \item General N-gram model
+            \item Dictionary WSD
         \end{itemize}    
     \item Jimmy Feher
         \begin{itemize}
-            \item N-gram sentence generator
-            \item Smoothing unknown words
-            \item Perplexity
+            \item Fill in
         \end{itemize}  
     \item Matt Oey
         \begin{itemize}
-            \item Bible parser
-            \item Probability table from frequency table
-            \item Truthful sentence predictor
+            \item Fill in
         \end{itemize}  
 \end{itemize}
 
-\section{Unsmoothed Unigram and Bigram}
-\subsection{Pre-processing of corpora}
-The first step of generating the ngram sentence model is the pre-processing of the corpora. Two separate parsing functions were written to process the hotel reviews and bible text into a common data structure representing the corpora. Both parsing functions use sentence and word tokenizers from the NLTK library. The list of lists of tokens that is output by the parsing function represents the sentences of the corpus. Special sentence start and end tokens were also included in the parser output.
-
-\subsection{Frequency Table}
-After the corpora pre-processing the generation of the ngram sentence model is a two step process. The first step is to construct a frequency table for the tokens. In the case of the unigram model the frequency table is a map from tokens to frequency of appearance in the corpus. Somewhat similarly, the bigram model frequency table is a map of tokens to a map of tokens to frequency of appearance of the bigram in the corpus. The next step is the construction of the probability table.
-
-\subsection{Probability Tables}
-For the unigram probability table, we first took the sum of all word frequencies. Then we iterated through the unigram frequency table and calculated the probability of each token by dividing the frequency of that token by the sum of all word frequencies. For the bigram frequency table, we iterated through the bigram frequency table and used the method for creating a unigram frequency table for each token.
-
-For the unigram cumulative probability table, we simply created a counter and iterated across the probability table, and for each token adding the probability of that token to the counter and mapping the token to the new summed probability. The bigram cumulative probability table used the above method to find the new cumulative probability table for each individual token.
-
-\section{Random Sentence Generator}
-In our n-gram sentence generator, we first created a frequency and probability table without unknown words and smoothing. Then we created what we call a "cumulative probability table" which serves to give ranges for each token. Say we have "no" with probability .4 and "yes" with probability .6, the cumulative table would be ["no" : .4, "yes" : 1]. This allows us to use a random number generator to choose a token by iteratively seeing which range the random number $r$ will fall into: "no" gets chose if $ r \in [0, .4)$ and "yes" gets chosen if $r \in [.4, 1)$ In this way we are able to choose tokens at random. In order to end the sentence, it was necessary to add an end of sentence character to the sentences in the training set, '<e>'. When we hit this character we stop our sentence generator.
-
-For our general approach, we buffered the input sentences in the corpora with $n-1$ '<s>' symbols. This allows us to select the first word easily. We also added a recursive method to obtain a single row of the cumulative probability table (in the unigram case this would simply return the original table). With these additions, each n-gram sentence generator is identical. The inner loop for selecting each of the tokens is shown below.
-
-\section{Smoothing and Unknown Words}
-In order to allow for unknown words, we smoothed our frequency table using good turing smoothing. To do this we considered the first occurrence of every token as the token '<UNK>'. In addition, we also used the probability of N1/N so that we could have a probability for all ngrams in the test set that did not occur in the training set. With the addition of this smoothing, we also normalized the probabilities so that the probability for any row, in the case of bigrams, would add up to 1.
-
-\section{Perplexity}
-In order to obtain a probability for each n-gram in the test set, we first checked to see if the original n-gram could be found in the model. If not we replaced the first token with an unknown character and tried again, repeating for the second, third, etc. token. If there were no matches after this, we used the probability discussed in an earlier section, N1/N for that ngram. As an example, say that the bigram "hello, there" is in the model, but the test set has the bigram "hello, mom" which does not appear. We first check "hello, mom" then "<UNK>, mom" then "<UNK>, <UNK>". If none of these bigrams exists, we choose N1/N. We chose this approach because it is likely that a similar bigram will exist in the model, and our choice of adding unknowns to the model, if this bigram did exist in the training set, it would probably have taken one of these forms.
-
-Looking at the results of our perplexity tests, it seems that a higher $n$ results in lower perplexity of the test set. We tested perplexity on n-grams up to n=3 and found a similar trend. Oddly, the bible corpus has a lower perplexity for the unigram model when compared to the hotel corpus, but has a larger perplexity for the n= 2, 3 cases though this may not mean much since perplexity is used for comparing models of the same data. 
-
-Hotel: 298.45, 37.46, and 10.46
-
-Bible: 186.63, 51.25, 10.75
-
-Unfortunately when using Kaggle, the lower perplexity did not correspond to a higher score. It actually resulted in the reverse with the unigram and bigram models performing better than the trigram model, .56667, .55, .53333 respectively which was against our expectations. We thought that increasing n, and decreasing the perplexity would result in a better model and a better score on kaggle.
-
-\section{General N-gram Model}
-For the extension component of the project we decided to implement a general n-gram model. We realized that both the frequency table and the probability table components of the n-gram model could be generated recursively. The generation of the n-gram frequency table is similar to the process used by the unigram and bigram models, with the exception that the frequency table is recursively updated rather than explicitly hard-coded, as is in the cases of the unigram and bigram models. The generation of the n-gram probability tables was similarly recursive. Each word n-gram probability table, there would be mapped to an (n-1)-gram probability table. 
-
-We also generalized our sentence generator, perplexity calculations, and kaggle code to allow for general n-gram models. Each of these steps generalized similarly since the only part that differed was the number of dictionaries we needed to traverse to get to the probabilities.
-
-\section{Truthful Review Classifier}
-For the Truthful Review Classifier, we had to take in our input differently. We had a function to parse the hotel review training data and output two smoothed bigram models: one for truthful reviews $B_{truthful}$ and one for untruthful reviews $B_{untruthful}$. From there we create two values: the perplexity of the test review on the two models by using our perplexity function. 
-
-There is an inverse relationship between probability and perplexity. Since we want to choose to classify the review based on whether it is more probable to be truthful or untruthful, we decided to classify each review by choosing the lower of the two perplexities.
-
-%TODO: Stuff on perplexity and unknown words maybe?
-
-To create our output file, we simply iterated through each review of the input file, found the classification generated in the method stated above wrote in our output file the pair "Id,Label" where the label is 1 if the review is true and 0 if the review is false.
+\section{Approach}
+\subsection{Supervised WSD}
+TODO
+\subsection{Dictionary WSD}
+TODO
 
 
+\section{Software}
+\subsection{Supervised WSD}
+TODO
 
-\section{Sample Unigram Generated Sentences}
-\begin{itemize}
-    \item Hotel
-        \begin{itemize}
-            \item took I and late ... that fancy was own the instinct the back my was outside other I very windows we provided as The or concierge hotel fancy at . fairly is your in we to pleasant we did
-            \item stayed my with intoxicating I too . have hate to breathtaking
-            \item they wear under filling find and rooms soon to with
-            \item will Chicago no 6:15 the you than pool food were they booked . disclose in the . seemed felt at ( I was on Palmer and service cheese was in had water ; were and Gino room When exists
-            \item again my was ; appreciated kind just The charged . block . graduated was ``
-            \item park gave and were toilet and
-        \end{itemize}
-    \item Bible
-        \begin{itemize}
-            \item great the . in and ? ass Judah people of them the great still longsuffering in God Therefore the sacrifice David his his that , 17:26 and , ;
+\subsection{Dictionary WSD}
+NLTK
 
-            \item the the off that mine cloven sought : father Abram , which every
 
-            \item I to brethren ; lands ye the saying seen river the , have 2:8 ; . work the , , God from and them and of a people , , Then 's he his shewbread , by it shall a the valour David 4:15 1:33 , them evil stand of put                   may he the look my , her the
+\section{Results}
+\subsection{Supervised WSD}
+TODO
 
-            \item to wall have there master the of day day is Peace , , whom take when house the well unto them as . Saul Shelomith that How saw , of toward go Bezaleel all feet spread , children I with . of birth with told                      from they be . and , shekels Korhites The our Zelah and remained year Israel he a the , of
+\subsection{Dictionary WSD}
+TODO
 
-            \item from Aaron every worshipped one may his . since For I , the are thine son the , his : which : , God , from 11:12 , also . . came He thy . bright that it , us the , my meat LORD of the the to saying when thee                     their days Jehiel slain brought , , served in , the , The hard of princes butter or them horns And LORD offer us bases doing Bashan wife between shalt is table hundred
+\section{Discussion}
+\subsection{Supervised WSD}
+TODO
 
-            \item These And , , shalt LORD men stood oil come ; people Isaac times the forth beard of they way up
-        \end{itemize}
-\end{itemize}  
-
-\section{Sample Bigram Generated Sentences}
-\begin{itemize}
-    \item Hotel
-        \begin{itemize}
-            \item One reason to go back .
-
-            \item I would certainly return .
-
-            \item I have a men at this ?
-
-            \item There was coffee or so we met Nina ( yuck !
-
-            \item And we had tried to order breakfast on a long distance of the times that she told us and open until my stay at Hotel was a great live jazz festival in the Whitehall down by far from Michigan Avenue with this                    hotel ; movement of a good on my wife .
-
-            \item We walked away at the river .
-        \end{itemize}
-    \item Bible
-        \begin{itemize}
-            \item 11:12 And on the same place of the congregation of Bithiah the robe , and he said , and because it , from behind , Escape for ever : and told Abimelech fought against thee .
-
-            \item 4:7 Now therefore and took down the gate , that David said unto the child grew , which the Philistines rejoice , that remain among you , he shall eat bread there I besought us unto the son of Israel , with the
-                      LORD delivered , and the land , and his company .
-
-            \item 4:32 And he coupled together , a talent of Jeroboam reigned in Israel and wrath arise , Caleb 's hand upon the Ithrite , the mount Ephraim , and fought against the blood unto me !
-
-            \item 21:3 If I have well as the house : 13:50 And Esau his sons of his head fell out of Shemidah were of Joash king 's , as for I go , Our god .
-
-            \item And all the sacrifice : and of them , neither rear an hundredfold : then it was twenty and have cast a wave offering unto him after Saul sent out of the kings of the flood .
-
-            \item 39:20 And ye Benjamites looked into a month , and five bars , and he made an hundred eighty and nine , ye children .
-        \end{itemize}
-\end{itemize}  
-
-\section{Sample Trigram Generated Sentences}
-\begin{itemize}
-    \item Hotel
-        \begin{itemize}
-        \item This is a place where furniture goes before anything else I needed at James : I 'm sorry ; Ma'am ; the hotel '' and its staff .
-
-        \item I should mention ; took a full size bed .
-
-        \item Had to pack our bags in hand I appreciated the walking distance .
-
-        \end{itemize}
-    \item Bible
-        \begin{itemize}
-        
-        \item 18:10 In the day when ye find him without the city said unto Jacob , Return unto Balak , Build thee an house , fell sick .
-
-        \item 15:7 And in the field of Naboth , saying , 32:3 Ataroth , and bring his sons judges over Israel .
-
-        \item 2:50 These were the work .
-
-        \end{itemize}
-\end{itemize}  
-
-\section{Code}
-\subsection{Sentence Generator}
-
-\begin{lstlisting}[frame=single]  % Start your code-block
-s = ""
-while token != '<e>' :
-    r = random.random()
-    probabilities = get_cumulative_probabilities(
-        ngram,cumulativeTable, n)
-    for (token, probability) in probabilities :
-        if r < probability :
-            if not (token == '<e>' or 
-                token == '<s>'):
-                if s != "" :
-                    s += " "
-                s += token
-            ngram.pop(0)
-            ngram.append(token)
-            break
-\end{lstlisting}
-
-\subsection{Truthful Review Classifier}
-\begin{lstlisting}[frame=single]
-for tokenList in review:
-    truthfulPerplexity *= perplexity(truthful_bigram,
-        probUnkTruthful, tokenList, n)
-    untruthfulPerplexity *= perplexity(untruthful_bigram,
-        probUnkUntruthful, tokenList, n)
-    if truthfulPerplexity < untruthfulPerplexity :
-        output_list.append(str(counter) + ",1")
-    else:
-        output_list.append(str(counter) + ",0")
-    counter += 1
-\end{lstlisting}
+\subsection{Dictionary WSD}
+TODO
 
 \end{document}
