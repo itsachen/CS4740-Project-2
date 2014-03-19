@@ -20,7 +20,14 @@
 \usepackage{listings}
 
 \begin{document}
-\lstset{language=Python}
+\lstset{
+language=Python,
+basicstyle=\scriptsize,        % the size of the fonts that are used for the code
+frame=single,                    % adds a frame around the code
+keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{blue},
+commentstyle=\color{gray}
+}
 \setlength{\parindent}{0in}
 \addtolength{\parskip}{0.1cm}
 \setlength{\fboxrule}{.5mm}\setlength{\fboxsep}{1.2mm}
@@ -53,14 +60,49 @@ Matthew Oey (mso32)
 
 \section{Approach}
 \subsection{Supervised WSD}
-TODO
+\subsubsection{Parsing Input Data}
+To parse the input data, we 
+\begin{lstlisting}
+#wordmap is a mapping of word strings to word objects
+def parse_train_data(filename):
+    word_map = {}
+    with open(filename) as f:
+        for line in f:
+            parts = re.split(' \| ', line)
+            splitByPeriod = re.split('\.', parts[0])
+            word = splitByPeriod[0]
+            pos = splitByPeriod[1]
+            sense = parts[1]
+            context = parts[2]
+
+            #Create word map
+            if not word in word_map:
+                word_map[word] = Word(word, pos)
+            word_map[word].add_context(sense, context)
+
+    return word_map
+\end{lstlisting}
+
+
+\begin{lstlisting}
+def get_sense_count(word_map):
+    word_to_sense_to_count_map = {}
+    for word_object in word_map.values():
+        sense_to_count_map = {}
+        for sense, context_list in word_object.sense_id_map.items():
+            sense_to_count_map[sense] = float(len(context_list))
+        word_to_sense_to_count_map[word_object.word] = sense_to_count_map
+    return word_to_sense_to_count_map
+\end{lstlisting}
+
+
 \subsection{Dictionary WSD}
 TODO
 
 
 \section{Software}
 \subsection{Supervised WSD}
-TODO
+For Supervised WSD we used NLTK 
 
 \subsection{Dictionary WSD}
 NLTK
