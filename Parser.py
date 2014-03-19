@@ -1,5 +1,6 @@
 import nltk
 import re
+import math
 
 sentence_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
@@ -34,8 +35,8 @@ class Sense:
     def __init__(self,id,wordnet_ids,gloss,examples):
         self.id = id
         self.wordnet_ids = wordnet_ids # LIST OF CHARS
-        self.gloss = gloss # List of lemmatized tokens
-        self.examples = examples # List of lists of lemmatized tokens
+        self.gloss = gloss # List of tokens (lemmatized or not)
+        self.examples = examples # List of lists of tokens (lemmatized or not)
 
 class Context:
     def __init__(self, context):
@@ -142,7 +143,7 @@ def get_idf(tokenized_sentence_list):
                 word_map[word] = 1.0
     l = float(len(tokenized_sentence_list))
     for key,value in word_map.items():
-        word_map[key] = l / word_map[key]
+        word_map[key] = math.log(l / word_map[key])
     return word_map
 
 
