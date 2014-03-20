@@ -255,7 +255,52 @@ Above is a graph of soft scores versus hard scores given different sized trainin
 Extension 3:  It seems that the soft score is more telling of the actual accuracy of our classifier because of this trend in the learning curve and because of how it is measuring our accuracy. We could have a classifier that is very accurate, but picks the correct sense by barely beating out the second best sense. If that is the case, it is likely that a small change in the training set may completely change the accuracy of our classifier. Because of this, the soft scoring approach is probably more telling of the accuracy of our classifier.
 
 \subsection{Dictionary WSD}
-TODO
+During the development of the dictionary WSD process, several optional parameters were introduced. Tuning these parameters significantly affected the accuracy of the process. These parameters include the threshold for feature selection, the application of lemmatization on all tokens and averaging overlap scores based on the size of the target sense signature.
+
+As mentioned previously, feature selection is accomplished by assigning IDF weights to context tokens for a test case. Tokens are then filtered by comparing their weights to a threshold. Table~\ref{threshold} shows the accuracies of the dictionary WSD system with various thresholds. Since the inverse document frequency statistic increases with the approximated importance of the word, a higher threshold would result in more important features. However, higher threshold values also result in less features to be compared against. Through experimentation the threshold of $6.0$ was determined to result in the highest accuracy, without resulting in no features being selected at all.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    Threshold                          & Accuracy   \\ \hline
+    0.0 & 0.196 \\
+    2.0        & 0.20 \\
+    6.0                   & 0.29 \\ \hline
+    \end{tabular}
+\caption{Accuracy based on feature selection threshold, with averaging and no lemmatization}
+\label{threshold}
+\end{table}
+
+Lemmatization was also incorporated into the process, in theory, to reduce false negatives in calculating overlaps, due to morphological variations in words. Table~\ref{lemmatization} shows that lemmatization increased the accuracy of the system, albeit not significantly. 
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    Lemmatization?                          & Accuracy   \\ \hline
+    No & 0.29 \\
+    Yes        & 0.32 \\ \hline
+    \end{tabular}
+\caption{Accuracy based on lemmatization, with a threshold of 6.0 and averaging}
+\label{lemmatization}
+\end{table}
+
+The final parameter that was introduced was an attempt at normalizing scores based on the size of the target sense signature. In theory, if one sense had significantly more examples than another sense, that would result in more overlaps. Scores for each sense were averaged by the number of tokens in the sense's signature. Table~\ref{averaging} shows that averaging actually decreased the accuracy of the system.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    Averaging?                          & Accuracy   \\ \hline
+    No & 0.32 \\
+    Yes        & 0.36 \\ \hline
+    \end{tabular}
+\caption{Accuracy based on sense score averaging, with a threshold of 6.0 and lemmatization}
+\label{averaging}
+\end{table}
+
+A soft score of the process was also calculated, with a threshold of 6.0, no averaging and lemmatization. The score was $.47$. The soft scoring scheme does not penalize mistakes as much as the hard scoring scheme and is more lenient with ambiguity in sense choices. For example, in a scenario where the probability between two senses is almost equal, a soft scoring approach would still award points. Since the dictionary WSD system scored a higher soft score, it can be claimed that the system is more ambiguous in the selection of senses.
 
 \section{Discussion}
 \subsection{Supervised WSD}
