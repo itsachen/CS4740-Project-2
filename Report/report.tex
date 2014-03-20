@@ -246,18 +246,20 @@ The Python Standard Library ElementTree XML API was utilized to parse the dictio
 
 Here we present the results of a few of our trials sorted in decreasing order of efficiency based on the kaggle test set. We have two baselines which were guessing a random sense which scored approximately .33. Surprisingly, just guessing the most common sense is enough to get a score of .78076. We then created our naive bayes classifier by adding on features incrementally. The first feature we tried was unigrams around the target word, but we did not differentiate between previous and after contexts. We then proceeded to differentiate between the two contexts, added the target word probabilities, and incorporated a stop list and the validation set into our classification.
 
-\subsubsection{Extension 4}
+\subsubsection{Extension 3 and 4}
 \includegraphics[width = 4in]{data_plot.png}
 
-In the above graph, accuracy is on the left and the bottom represents the training set size = 1/log(x+1) of the original size.
+Extension 4: In the above graph, accuracy is on the left and the bottom represents the training set size = 1/log(x+1) of the original size.
 Above is a graph of soft scores versus hard scores given different sized training sets. The way we chose the training set was by simply choosing every other line in the training set in order to reduce the size of the training set in half at each step. You can see above that there is a clear downward trend as the training set decreases in size though there are some outliers where accuracy actually improved for the hard score. It seems that the soft score is more telling of the actual accuracy of the model since it has a continually decreasing learning curve as the size of the test set decreases.
+
+Extension 3:  It seems that the soft score is more telling of the actual accuracy of our classifier because of this trend in the learning curve and because of how it is measuring our accuracy. We could have a classifier that is very accurate, but picks the correct sense by barely beating out the second best sense. If that is the case, it is likely that a small change in the training set may completely change the accuracy of our classifier. Because of this, the soft scoring approach is probably more telling of the accuracy of our classifier.
 
 \subsection{Dictionary WSD}
 TODO
 
 \section{Discussion}
 \subsection{Supervised WSD}
-
+The three most informative features we have are the 
 
 \subsection{Dictionary WSD}
 TODO
