@@ -1,0 +1,37 @@
+1:
+hard score: 0.950696677385
+soft score: 0.934702342883
+
+2:
+hard score: 0.829581993569
+soft score: 0.813564668212
+
+4:
+hard score: 0.817792068596
+soft score: 0.8072026706
+
+8:
+hard score: 0.798499464094
+soft score: 0.792082182482
+
+16:
+hard score: 0.781350482315
+soft score: 0.775655652342
+32:
+hard score: 0.798499464094
+soft score: 0.763650306543
+64:
+hard score: 0.756698821008
+soft score: 0.736093183252
+128:
+hard score: 0.751339764202
+soft score: 0.68529663283
+
+256:
+hard score: 0.75026795284
+soft score: 0.657441142804
+
+512:
+hard score: 0.665594855305
+soft score: 0.639871382637
+
