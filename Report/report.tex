@@ -255,6 +255,8 @@ Above is a graph of soft scores versus hard scores given different sized trainin
 \subsection{Dictionary WSD}
 TODO
 
+A soft score of the process was also calculated, with a threshold of 6.0, no averaging and lemmatization. The score was $.47$. The soft scoring scheme does not penalize mistakes as much as the hard scoring scheme and is more lenient with ambiguity in sense choices. For example, in a scenario where the probability between two senses is almost equal, a soft scoring approach would still award points. Since the dictionary WSD system scored a higher soft score, it can be claimed that the system is more ambiguous in the selection of senses.
+
 \section{Discussion}
 \subsection{Supervised WSD}
 
