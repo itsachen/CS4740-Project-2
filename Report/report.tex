@@ -83,7 +83,7 @@ def get_sense_count(word_map):
     return word_to_sense_to_count_map
 \end{lstlisting}
 
-The other part of our preprocessing is that we need to know how many target words there are in the context for each sense of each word. This function, similar to the one above, calculates those scores by iterating across each word object sense and calculates the number of examples that contain a certain feature abd from that calculates the probability that a feature occurs in the context given the word and sense.
+The other part of our preprocessing is that we need to know how many target words there are in the context for each sense of each word. This function, similar to the one above, calculates those scores by iterating across each word object sense and calculates the number of examples that contain a certain target word and from that calculates the probability that a target word has to a particular sense.
 
 \begin{lstlisting}
 def get_target_probability(word_map):
@@ -111,8 +111,9 @@ def get_target_probability(word_map):
 To keep track of our features, we decided to use a unigram model. Using the techniques we learned from Project 1, we created a unigram for each word sense using the training data. This unigram would hold the probability that each of our features would appear in the context. To create this, we iterated over each word and sense and for each context we iterated across the token list to find the count of each word. We also decided to apply Good-Turing smoothing and use our methods for handling unknown words from the previous project. \\ 
 
 \subsubsection{Classifying data}
+In supervised training, we used three main features for classification. The first two features are unigrams within plus or minus $k$ words from the target word. Early in our testing we tried different values of $k$ and found that the value that consistently gave us the best scores was at $k=5$. We used this value of $k$ both to train our model by only considering $k$ words to the left, and $k$ words to the right when constructing the unigram models. Again, in our testing, we found that splitting previous context and after context into separate features improved the performance of our classifier. Our third feature is the target word. For example, on lines 98 and 104(and other lines), you can see this is for training the word allow.v.2. Both of these words have the same sense and they also have the exact same target word: allowed, rather than allow. This made think to try adding the target word as a feature and improved our accuracy. Though not a feature, the last thing we added to our classifier is the ability to skip words common words by using the nltk stopwords list. The results with these features are discussed below. 
 
-To classify each word $w_i$ in our validation set, iterated across each context in the set of unclassified words. For each of the possible senses for that word, we then used the unigram associated with that sense to find the probability of each feature in the context. We then used this to calculate the probability that $w_i$ has sense $s_i$ given the features in the context. We keep track of our best probabilty and we output the sense assciated with that probability.
+To classify each word $w_i$ in our validation set, we iterated across each context in the set of unclassified words. For each of the possible senses for that word, we then used the unigram models and target word probabilities associated with that sense to find the probability of each feature in the context. We then used this to calculate the probability that $w_i$ has sense $s_i$ given the features in the context using the naive bayes algorithm. We keep track of our best probabilty and we output the sense assciated with that probability as our guess.
 
 \begin{lstlisting}
 def score_validation_set(unclassified_words, unigram_model, word_map, outputFile):
@@ -157,10 +158,6 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
         text_file.write(bestSense + "\n")
     text_file.close()
 \end{lstlisting}		
-
-\subsubsection{Feature Selection}
-
-We decided to treat all words as features although we created methods for calculating the inverse document frequency of words and experimented with using only words with a certain idf as our feature set. Ultimately though, treating all words as features gave us the best results. We also contemplated weighting features by where they appear in the context. We experimented with using different weights for the features in the context appearing before the word and after the word. We also experimented with treating the features in the same sentence as the word as a different weight from the features appearing in sentences surrounding the word.
 
 \subsection{Dictionary WSD}
 \subsubsection{Parsing and Data Structures}
