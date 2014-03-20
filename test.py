@@ -28,6 +28,7 @@ def convert_results_to_submission(textFile, outputFile):
         for line in f:
             text_file.write(str(i) + "," + line)
             i+=1
+    text_file.close()
     
 def compute_hard_and_soft_score(textFile, outputFile):
     numCorrect = 0
@@ -57,7 +58,17 @@ def compute_hard_and_soft_score(textFile, outputFile):
     print "hard score: " + str(float(numCorrect)/total)
     print "soft score: " + str(float(softScoreTotal)/total)
         
-
+def remove_every_other_line(inFile, outFile):
+    text_file = open(outFile, "w")
+    i = 0
+    with open(inFile) as f:
+        for line in f:
+            if i % 2 == 0:
+                text_file.write(line)
+            i+=1
+    text_file.close()
 #print get_results(sys.argv[1], sys.argv[2])    
 #convert_results_to_submission(sys.argv[1], sys.argv[2])
-compute_hard_and_soft_score(sys.argv[1], sys.argv[2])
+#compute_hard_and_soft_score(sys.argv[1], sys.argv[2])
+
+#remove_every_other_line(sys.argv[1], sys.argv[2])
