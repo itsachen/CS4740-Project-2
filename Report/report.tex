@@ -16,6 +16,7 @@
 \usepackage{tikz}
 \usepackage{xcolor,colortbl}
 \usepackage{multicol}
+\usepackage{graphicx}
 
 \usepackage{listings}
 
@@ -48,6 +49,7 @@ Matthew Oey (mso32)
 
 To handle the input data, we used a word object. For every word $w_i$, the object holds the string value for the word and part of speech, as well as a map of senses to the cooresponding context lists. Context lists are the set of contexts that in which that word is used with that sense. For each context, we use NLTK to tokenize the input and then we separate the context into four parts: the sentences prior to the sentence containing $w_i$, the words in the sentence that come before the word $w_i$, the words in the sentence that come after the word $w_i$, and the sentences after to the sentence containing $w_i$. The input data is parsed by having a global map containing mappings of word strings to word objects. 
 
+\begin{figure}[ht]
 \begin{lstlisting}
 #wordmap is a mapping of word strings to word objects
 def parse_train_data(filename):
@@ -68,10 +70,14 @@ def parse_train_data(filename):
 
     return word_map
 \end{lstlisting}
+\caption{Training data parser}
+\label{Training data parser}
+\end{figure}
 
 \subsubsection{Preprocessing}
 As part of our preprocessing stage, we need to know the number of examples we have for each sense for each word. The following simple function takes as input the word map created above and iterates across each word object, calculating the sense count, to output a mapping of words to senses to the number of examples in our training set.
 
+\begin{figure}[ht]
 \begin{lstlisting}
 def get_sense_count(word_map):
     word_to_sense_to_count_map = {}
@@ -82,9 +88,13 @@ def get_sense_count(word_map):
         word_to_sense_to_count_map[word_object.word] = sense_to_count_map
     return word_to_sense_to_count_map
 \end{lstlisting}
+\caption{Sense count calculation}
+\label{sense count}
+\end{figure}
 
 The other part of our preprocessing is that we need to know how many target words there are in the context for each sense of each word. This function, similar to the one above, calculates those scores by iterating across each word object sense and calculates the number of examples that contain a certain target word and from that calculates the probability that a target word has to a particular sense.
 
+\begin{figure}[ht]
 \begin{lstlisting}
 def get_target_probability(word_map):
     word_to_sense_to_target_prob_map = {}
@@ -107,6 +117,9 @@ def get_target_probability(word_map):
         word_to_sense_to_target_prob_map[word_object.word] = sense_to_target_count_map
     return word_to_sense_to_target_prob_map
 \end{lstlisting}
+\caption{Target probabiltiy calculation}
+\label{target probabiltiy}
+\end{figure}
 
 To keep track of our features, we decided to use a unigram model. Using the techniques we learned from Project 1, we created a unigram for each word sense using the training data. This unigram would hold the probability that each of our features would appear in the context. To create this, we iterated over each word and sense and for each context we iterated across the token list to find the count of each word. We also decided to apply Good-Turing smoothing and use our methods for handling unknown words from the previous project. \\ 
 
@@ -115,6 +128,7 @@ In supervised training, we used three main features for classification. The firs
 
 To classify each word $w_i$ in our validation set, we iterated across each context in the set of unclassified words. For each of the possible senses for that word, we then used the unigram models and target word probabilities associated with that sense to find the probability of each feature in the context. We then used this to calculate the probability that $w_i$ has sense $s_i$ given the features in the context using the naive bayes algorithm. We keep track of our best probabilty and we output the sense assciated with that probability as our guess.
 
+\begin{figure}[ht]
 \begin{lstlisting}
 def score_validation_set(unclassified_words, unigram_model, word_map, outputFile):
     word_to_sense_probability_map = get_sense_probability(word_map)
@@ -157,7 +171,10 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
                 bestSense = sense
         text_file.write(bestSense + "\n")
     text_file.close()
-\end{lstlisting}		
+\end{lstlisting}
+\caption{Supervised WSD Classifier}
+\label{classifier}	
+\end{figure}	
 
 \subsection{Dictionary WSD}
 \subsubsection{Parsing and Data Structures}
@@ -226,16 +243,36 @@ The Python Standard Library ElementTree XML API was utilized to parse the dictio
 
 \section{Results}
 \subsection{Supervised WSD}
-TODO
 
+\subsubsection{Feature Selection}
+\begin{center}
+\begin{table}
+    \begin{tabular}{|l|l|}
+    \hline
+    Submission                          & Score   \\ \hline
+    Used a stop list to select features & 0.81266 \\
+    Used features with idf > 2.0        & 0.80704 \\
+    Used all features                   & 0.80704 \\
+    Most common senses(baseline)        & 0.78076 \\ \hline
+    \end{tabular}
+\end{table}
+\end{center}
+
+\subsubsection{Extension 4}
+\includegraphics[width = 4in]{data_plot.png}
+
+\subsubsection{Left and Right Weights}
+	
 \subsection{Dictionary WSD}
 TODO
 
 \section{Discussion}
 \subsection{Supervised WSD}
-TODO
+From our results we know that the best results came when we used all words as feature vectors and when we treated all parts of our context the same. 
 
 \subsection{Dictionary WSD}
 TODO
+
+\subsection{Comparison}
 
 \end{document}
