@@ -29,5 +29,35 @@ def convert_results_to_submission(textFile, outputFile):
             text_file.write(str(i) + "," + line)
             i+=1
     
+def compute_hard_and_soft_score(textFile, outputFile):
+    numCorrect = 0
+    softScoreTotal = 0
+    total = 0
+    testArray = []
+    resultArray = []
+    softScore = []
+    with open(textFile) as f:
+        for line in f:
+            line = line.rstrip('\n')
+            testArray.append(line)
+    with open(outputFile) as f:
+        for line in f:
+            line = line.rstrip('\n')
+            arr = line.split(", ")
+            resultArray.append(arr[0])
+            softScore.append(arr[1])
+    
+    for i in range(0, min(len(testArray), len(resultArray))):
+        if testArray[i] == resultArray[i]:
+            numCorrect+=1
+            softScoreTotal += float(softScore[i])
+        else:
+            softScoreTotal += (1 - float(softScore[i]))
+        total+=1
+    print "hard score: " + str(float(numCorrect)/total)
+    print "soft score: " + str(float(softScoreTotal)/total)
+        
+
 #print get_results(sys.argv[1], sys.argv[2])    
 #convert_results_to_submission(sys.argv[1], sys.argv[2])
+compute_hard_and_soft_score(sys.argv[1], sys.argv[2])
