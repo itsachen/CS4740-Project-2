@@ -108,11 +108,11 @@ def get_target_probability(word_map):
     return word_to_sense_to_target_prob_map
 \end{lstlisting}
 
-To keep track of our features, we decided to use a unagram model. Using the techniques we learned from Project 1, we created a unagram for each word sense using the training data. This unagram would hold the probability that each of our features would appear in the context. To create this, we iterated over each word and sense and for each context we iterated across the token list to find the count of each word. We also decided to apply Good-Turing smoothing and use our methods for handling unknown words from the previous project. \\ 
+To keep track of our features, we decided to use a unigram model. Using the techniques we learned from Project 1, we created a unigram for each word sense using the training data. This unigram would hold the probability that each of our features would appear in the context. To create this, we iterated over each word and sense and for each context we iterated across the token list to find the count of each word. We also decided to apply Good-Turing smoothing and use our methods for handling unknown words from the previous project. \\ 
 
 \subsubsection{Classifying data}
 
-To classify each word $w_i$ in our validation set, iterated across each context in the set of unclassified words. For each of the possible senses for that word, we then used the unagram associated with that sense to find the probability of each feature in the context. We then used this to calculate the probability that $w_i$ has sense $s_i$ given the features in the context. We keep track of our best probabilty and we output the sense assciated with that probability.
+To classify each word $w_i$ in our validation set, iterated across each context in the set of unclassified words. For each of the possible senses for that word, we then used the unigram associated with that sense to find the probability of each feature in the context. We then used this to calculate the probability that $w_i$ has sense $s_i$ given the features in the context. We keep track of our best probabilty and we output the sense assciated with that probability.
 
 \begin{lstlisting}
 def score_validation_set(unclassified_words, unigram_model, word_map, outputFile):
@@ -180,18 +180,45 @@ class Sense:
 \end{figure}
 
 \subsubsection{Word-sense Disambiguation}
-The WSD algorithm is similar to Lesk's algorithm. First, the method parses the test dataset using parse\_test\_data().
+The WSD algorithm is similar to Lesk's algorithm. First, the method parses the test dataset using parse\_test\_data(). Then, for every word (also the test case) in the test dataset, features are selected from the word's context. These features are passed, along with the target word, to the method find\_best\_sense(). The method find\_best\_sense() constructs a general features context, which is comprised of a signature from each feature. A signature is a list of lists of tokens, representing the tokenized definition and examples of a feature. A signature is also constructed for every sense of the target word. An overlap score is then calculated between each target word sense signature and the word's features context to determine which sense is the best. 
+
+During the overlap score calculation, shown in Figure~\ref{overlap}, the target sense signature is compared to every feature signature in the features context to determine if overlaps of two or more tokens appear. An overlap of two or more tokens is considered a \textit{sequence}, which contributes to the sense's overall score. Longer overlap sequences are weighted heavier, according to the formula $score = \frac{n(n+1)}{2} - 1$, where $n$ is the length of the overlap. The overlap sequences are also weighted according to the importance of the constituent token. Importance of a token is approximated by the token's inverse document frequency. The sum of the IDF scores of each token represent the sequence's final score.
+
+\begin{figure}[ht]
+\begin{lstlisting}
+def calculate_overlap_score(idf_map, target_token_list, context_token_list):
+    score = 0.0
+    if len(context_token_list) == 0:
+        return score
+    for i in range(len(target_token_list)):
+        original_i = i
+        for j in range(len(context_token_list)):
+            i = original_i
+            matched = []
+            while i < len(target_token_list) and j < len(context_token_list):
+                if target_token_list[i] == context_token_list[j]:
+                    matched.append(target_token_list[i])
+                    i += 1
+                    j += 1
+                else:
+                    break
+            if len(matched) >= 2:
+                acc = 0.0
+                for match in matched:
+                    acc += idf_map[match]
+                weight = acc / len(matched)
+                score += weight
+    return score
+\end{lstlisting}
+\caption{Overlap score calculation method}
+\label{overlap}
+\end{figure}
 
 \subsubsection{Feature Selection}
-IDF threshold
-lol
-
-\subsubsection{Overlap Calculation}
-foo
+Feature selection from a target word's context also considered importance via a token's inverse document frequency. Every token in a target word's context was assigned a weight that was their IDF. A threshold was set that filtered the context into a set of features. The threshold was set experimentally to the value of $6.0$.
 
 \subsubsection{Lemmatization}
 We included an optional lemmatization step in both the parsing of the dictionary dataset and the disambiguation. Tokens from the sense gloss and example sentences are lemmatized, as well as the features provided to word\_sense\_disambiguation() and the feature synset definition and example sentences. The reasoning in lemmatizing tokens was to reduce false negatives in calculating overlaps, due to morphological variations in words.
-
 
 \section{Software}
 \subsection{Supervised WSD}
