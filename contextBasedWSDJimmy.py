@@ -1,6 +1,7 @@
 import Parser
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import wordnet as wn
+from nltk.corpus import stopwords
 import test
 
 #Add context from previous sentences
@@ -12,13 +13,13 @@ test_file = "test_data.data"
 validation_file = "validation_data.data"
 output_file = "supervised_output.csv"
 lmtzr = WordNetLemmatizer()
+idf_cutoff = 2.0
 
 NUM_NGRAMS_OBSERVED = 5
 NUM_COMMON_WORDS = 5
-
+stopwords = stopwords.words('english')
 word_map, tokenized_sentence_list = Parser.parse_train_data(train_file)
-unclassified_words = Parser.parse_test_data(test_file)
-idf = Parser.get_idf(tokenized_sentence_list)
+unclassified_words = Parser.parse_test_data(validation_file)
 
 def get_sense_count(word_map):
     word_to_sense_to_count_map = {}
@@ -145,20 +146,22 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
                         #probability *= unigram_probability_left['<UNK>']
                         continue
                     token = lmtzr.lemmatize(prev[i])
-                    if token in unigram_probability_left:
-                        probability *= unigram_probability_left[token]
-                    else:
-                        probability *= unigram_probability_left['<UNK>']
+                    if token not in stopwords:
+                        if token in unigram_probability_left:
+                            probability *= unigram_probability_left[token]
+                        else:
+                            probability *= unigram_probability_left['<UNK>']
                 for i in range(len(after)-NUM_NGRAMS_OBSERVED-1, len(after)-1):
                     unigram_probability_right = unigram_probability['right']
                     if i < 0 :
                         #probability *= unigram_probability_right['<UNK>']
                         continue
                     token = lmtzr.lemmatize(after[i])
-                    if token in unigram_probability_right:
-                        probability *= unigram_probability_right[token]
-                    else:
-                        probability *= unigram_probability_right['<UNK>']
+                    if token not in stopwords:
+                        if token in unigram_probability_right:
+                            probability *= unigram_probability_right[token]
+                        else:
+                            probability *= unigram_probability_right['<UNK>']
                 if context.target in target_word_probability_map[word_object.word][sense]:
                     probability *= target_word_probability_map[word_object.word][sense][context.target]
                 else:
@@ -178,40 +181,46 @@ def soft_score(unclassified_words, unigram_model, word_map, outputFile):
         totalSense = 0
         bestSense = 0
         bestProbability = 0
-        for sense in unigram_model[word_object.word]:
-            unigram_probability = unigram_model[word_object.word][sense]
-            probability = word_to_sense_probability_map[word_object.word][sense]
-            context = word_object.sense_id_map[0][0]
-            prev, after = context.prev_context, context.after_context
-            for i in range(len(prev)-NUM_NGRAMS_OBSERVED-1, len(prev)-1):
-                unigram_probability_left = unigram_probability['left']
-                if i < 0 :
-                    #probability *= unigram_probability_left['<UNK>']
-                    continue
-                token = lmtzr.lemmatize(prev[i])
-                if token in unigram_probability_left:
-                    probability *= unigram_probability_left[token]
+        if word_object.word not in unigram_model:
+            bestSense = 1
+            totalSense = 1
+        else:
+            for sense in unigram_model[word_object.word]:
+                unigram_probability = unigram_model[word_object.word][sense]
+                probability = word_to_sense_probability_map[word_object.word][sense]
+                context = word_object.sense_id_map[0][0]
+                prev, after = context.prev_context, context.after_context
+                for i in range(len(prev)-NUM_NGRAMS_OBSERVED-1, len(prev)-1):
+                    unigram_probability_left = unigram_probability['left']
+                    if i < 0 :
+                        #probability *= unigram_probability_left['<UNK>']
+                        continue
+                    token = lmtzr.lemmatize(prev[i])
+                    if token not in stopwords:
+                        if token in unigram_probability_left:
+                            probability *= unigram_probability_left[token]
+                        else:
+                            probability *= unigram_probability_left['<UNK>']
+                for i in range(len(after)-NUM_NGRAMS_OBSERVED-1, len(after)-1):
+                    unigram_probability_right = unigram_probability['right']
+                    if i < 0 :
+                        #probability *= unigram_probability_right['<UNK>']
+                        continue
+                    token = lmtzr.lemmatize(after[i])
+                    if token not in stopwords:
+                        if token in unigram_probability_right:
+                            probability *= unigram_probability_right[token]
+                        else:
+                            probability *= unigram_probability_right['<UNK>']
+                if context.target in target_word_probability_map[word_object.word][sense]:
+                    probability *= target_word_probability_map[word_object.word][sense][context.target]
                 else:
-                    probability *= unigram_probability_left['<UNK>']
-            for i in range(len(after)-NUM_NGRAMS_OBSERVED-1, len(after)-1):
-                unigram_probability_right = unigram_probability['right']
-                if i < 0 :
-                    #probability *= unigram_probability_right['<UNK>']
-                    continue
-                token = lmtzr.lemmatize(after[i])
-                if token in unigram_probability_right:
-                    probability *= unigram_probability_right[token]
-                else:
-                    probability *= unigram_probability_right['<UNK>']
-            if context.target in target_word_probability_map[word_object.word][sense]:
-                probability *= target_word_probability_map[word_object.word][sense][context.target]
-            else:
-                probability *= target_word_probability_map[word_object.word][sense]['<UNK>']
-            if probability > bestProbability:
-                bestProbability = probability
-                bestSense = sense
-            totalSense +=probability
-        text_file.write(bestSense + ", " + str(bestProbability / totalSense) + "\n")
+                    probability *= target_word_probability_map[word_object.word][sense]['<UNK>']
+                if probability > bestProbability:
+                    bestProbability = probability
+                    bestSense = sense
+                totalSense +=probability
+        text_file.write(str(bestSense) + ", " + str(float(bestProbability) / totalSense) + "\n")
     text_file.close()
     
 word_to_sense_probability_map = get_sense_probability(word_map)
@@ -219,5 +228,6 @@ print get_sense_count(word_map)
 print get_sense_probability(word_map)
 print "unigram"
 unigram_model = create_unigram_from_context(word_map)
-score_validation_set(unclassified_words, unigram_model, word_map, "output.txt")
-test.convert_results_to_submission("output.txt", "outputSubmission.txt")
+soft_score(unclassified_words, unigram_model, word_map, "output.txt")
+test.compute_hard_and_soft_score("validation_senses.txt", "output.txt")
+#test.convert_results_to_submission("output.txt", "outputSubmission.txt")
