@@ -140,18 +140,18 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
                 probability = word_to_sense_probability_map[word_object.word][sense]
                 context = word_object.sense_id_map[0][0]
                 prev, after = context.prev_context, context.after_context
-                
-                for i in range(len(after)-NUM_NGRAMS_OBSERVED-1, len(after)-1):
-                    unigram_probability_right = unigram_probability['right']
+                for i in range(len(prev)-NUM_NGRAMS_OBSERVED-1, len(prev)-1):
+                    unigram_probability_left = unigram_probability['left']
                     if i < 0 :
-                        #probability *= unigram_probability_right['<UNK>']
+                        #probability *= unigram_probability_left['<UNK>']
                         continue
-                    token = lmtzr.lemmatize(after[i])
+                    token = lmtzr.lemmatize(prev[i])
                     if token not in stopwords:
-                        if token in unigram_probability_right:
-                            probability *= unigram_probability_right[token]
+                        if token in unigram_probability_left:
+                            probability *= unigram_probability_left[token]
                         else:
-                            probability *= unigram_probability_right['<UNK>']
+                            probability *= unigram_probability_left['<UNK>']
+                
                 if context.target in target_word_probability_map[word_object.word][sense]:
                     probability *= target_word_probability_map[word_object.word][sense][context.target]
                 else:
