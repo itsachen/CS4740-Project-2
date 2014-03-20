@@ -7,7 +7,7 @@ import test
 #Add cooccurrence features?
 #add lemmatizer matches target
 
-train_file = "training_data.data"
+train_file = "training_data512.data"
 test_file = "test_data.data"
 validation_file = "validation_data.data"
 output_file = "supervised_output.csv"
@@ -131,6 +131,53 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
     for word_object in unclassified_words:
         bestSense = 0
         bestProbability = 0
+        if word_object.word not in unigram_model:
+            bestSense = 1
+        else:
+            for sense in unigram_model[word_object.word]:
+                unigram_probability = unigram_model[word_object.word][sense]
+                probability = word_to_sense_probability_map[word_object.word][sense]
+                context = word_object.sense_id_map[0][0]
+                prev, after = context.prev_context, context.after_context
+                for i in range(len(prev)-NUM_NGRAMS_OBSERVED-1, len(prev)-1):
+                    unigram_probability_left = unigram_probability['left']
+                    if i < 0 :
+                        #probability *= unigram_probability_left['<UNK>']
+                        continue
+                    token = lmtzr.lemmatize(prev[i])
+                    if token in unigram_probability_left:
+                        probability *= unigram_probability_left[token]
+                    else:
+                        probability *= unigram_probability_left['<UNK>']
+                for i in range(len(after)-NUM_NGRAMS_OBSERVED-1, len(after)-1):
+                    unigram_probability_right = unigram_probability['right']
+                    if i < 0 :
+                        #probability *= unigram_probability_right['<UNK>']
+                        continue
+                    token = lmtzr.lemmatize(after[i])
+                    if token in unigram_probability_right:
+                        probability *= unigram_probability_right[token]
+                    else:
+                        probability *= unigram_probability_right['<UNK>']
+                if context.target in target_word_probability_map[word_object.word][sense]:
+                    probability *= target_word_probability_map[word_object.word][sense][context.target]
+                else:
+                    probability *= target_word_probability_map[word_object.word][sense]['<UNK>']
+                if probability > bestProbability:
+                    bestProbability = probability
+                    bestSense = sense
+        text_file.write(str(bestSense) + "\n")
+    text_file.close()
+    
+#I'm lazy so I'm just copying my other method and changing the output
+def soft_score(unclassified_words, unigram_model, word_map, outputFile):
+    word_to_sense_probability_map = get_sense_probability(word_map)
+    target_word_probability_map = get_target_probability(word_map)
+    text_file = open("output.txt", "w")
+    for word_object in unclassified_words:
+        totalSense = 0
+        bestSense = 0
+        bestProbability = 0
         for sense in unigram_model[word_object.word]:
             unigram_probability = unigram_model[word_object.word][sense]
             probability = word_to_sense_probability_map[word_object.word][sense]
@@ -163,7 +210,8 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
             if probability > bestProbability:
                 bestProbability = probability
                 bestSense = sense
-        text_file.write(bestSense + "\n")
+            totalSense +=probability
+        text_file.write(bestSense + ", " + str(bestProbability / totalSense) + "\n")
     text_file.close()
     
 word_to_sense_probability_map = get_sense_probability(word_map)

@@ -22,7 +22,7 @@
 \begin{document}
 \lstset{
 language=Python,
-basicstyle=\scriptsize,        % the size of the fonts that are used for the code
+basicstyle=\ttfamily\scriptsize,        % the size of the fonts that are used for the code
 frame=single,                    % adds a frame around the code
 keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
 keywordstyle=\color{blue},
@@ -44,8 +44,10 @@ Matthew Oey (mso32)
 
 \section{Approach}
 \subsection{Supervised WSD}
-\subsubsection{Parsing Input Data}
-To parse the input data, we 
+\subsubsection{Parsing Input Data and Data Structures}
+
+To handle the input data, we used a word object. For every word $w_i$, the object holds the string value for the word and part of speech, as well as a map of senses to the cooresponding context lists. Context lists are the set of contexts that in which that word is used with that sense. For each context, we use NLTK to tokenize the input and then we separate the context into four parts: the sentences prior to the sentence containing $w_i$, the words in the sentence that come before the word $w_i$, the words in the sentence that come after the word $w_i$, and the sentences after to the sentence containing $w_i$. The input data is parsed by having a global map containing mappings of word strings to word objects. 
+
 \begin{lstlisting}
 #wordmap is a mapping of word strings to word objects
 def parse_train_data(filename):
@@ -67,6 +69,8 @@ def parse_train_data(filename):
     return word_map
 \end{lstlisting}
 
+\subsubsection{Preprocessing}
+As part of our preprocessing stage, we need to know the number of examples we have for each sense for each word. The following simple function takes as input the word map created above and iterates across each word object, calculating the sense count, to output a mapping of words to senses to the number of examples in our training set.
 
 \begin{lstlisting}
 def get_sense_count(word_map):
@@ -79,6 +83,84 @@ def get_sense_count(word_map):
     return word_to_sense_to_count_map
 \end{lstlisting}
 
+The other part of our preprocessing is that we need to know how many target words there are in the context for each sense of each word. This function, similar to the one above, calculates those scores by iterating across each word object sense and calculates the number of examples that contain a certain feature abd from that calculates the probability that a feature occurs in the context given the word and sense.
+
+\begin{lstlisting}
+def get_target_probability(word_map):
+    word_to_sense_to_target_prob_map = {}
+    for word_object in word_map.values():
+        sense_to_target_count_map = {}
+        for sense, context_list in word_object.sense_id_map.items():
+            count = 1
+            if sense not in sense_to_target_count_map:
+                sense_to_target_count_map[sense] = {}
+            for context in context_list:
+                count +=1
+                target = context.target
+                if target in sense_to_target_count_map[sense]:
+                    sense_to_target_count_map[sense][target] += 1
+                else:
+                    sense_to_target_count_map[sense][target] = 1
+            for target in sense_to_target_count_map[sense]:
+                sense_to_target_count_map[sense][target] /= float(count + 1)
+            sense_to_target_count_map[sense]['<UNK>'] = 1 / float(count + 1)
+        word_to_sense_to_target_prob_map[word_object.word] = sense_to_target_count_map
+    return word_to_sense_to_target_prob_map
+\end{lstlisting}
+
+To keep track of our features, we decided to use a unagram model. Using the techniques we learned from Project 1, we created a unagram for each word sense using the training data. This unagram would hold the probability that each of our features would appear in the context. To create this, we iterated over each word and sense and for each context we iterated across the token list to find the count of each word. We also decided to apply Good-Turing smoothing and use our methods for handling unknown words from the previous project. \\ 
+
+\subsubsection{Classifying data}
+
+To classify each word $w_i$ in our validation set, iterated across each context in the set of unclassified words. For each of the possible senses for that word, we then used the unagram associated with that sense to find the probability of each feature in the context. We then used this to calculate the probability that $w_i$ has sense $s_i$ given the features in the context. We keep track of our best probabilty and we output the sense assciated with that probability.
+
+\begin{lstlisting}
+def score_validation_set(unclassified_words, unigram_model, word_map, outputFile):
+    word_to_sense_probability_map = get_sense_probability(word_map)
+    target_word_prob_map = get_target_probability(word_map)
+    text_file = open("output.txt", "w")
+    for word_object in unclassified_words:
+        bestSense = 0
+        bestProbability = 0
+        for sense in unigram_model[word_object.word]:
+            unigram_probability = unigram_model[word_object.word][sense]
+            probability = word_to_sense_probability_map[word_object.word][sense]
+            context = word_object.sense_id_map[0][0]
+            prev, after = context.prev_context, context.after_context
+            for i in range(len(prev)-NUM_NGRAMS_OBSERVED-1, len(prev)-1):
+                unigram_probability_left = unigram_probability['left']
+                if i < 0 :
+                    #probability *= unigram_probability_left['<UNK>']
+                    continue
+                token = lmtzr.lemmatize(prev[i])
+                if token in unigram_probability_left:
+                    probability *= unigram_probability_left[token]
+                else:
+                    probability *= unigram_probability_left['<UNK>']
+            for i in range(len(after)-NUM_NGRAMS_OBSERVED-1, len(after)-1):
+                unigram_probability_right = unigram_probability['right']
+                if i < 0 :
+                    #probability *= unigram_probability_right['<UNK>']
+                    continue
+                token = lmtzr.lemmatize(after[i])
+                if token in unigram_probability_right:
+                    probability *= unigram_probability_right[token]
+                else:
+                    probability *= unigram_probability_right['<UNK>']
+            if context.target in target_word_prob_map[word_object.word][sense]:
+                probability *= target_word_prob_map[word_object.word][sense][context.target]
+            else:
+                probability *= target_word_prob_map[word_object.word][sense]['<UNK>']
+            if probability > bestProbability:
+                bestProbability = probability
+                bestSense = sense
+        text_file.write(bestSense + "\n")
+    text_file.close()
+\end{lstlisting}		
+
+\subsubsection{Feature Selection}
+
+We decided to treat all words as features although we created methods for calculating the inverse document frequency of words and experimented with using only words with a certain idf as our feature set. Ultimately though, treating all words as features gave us the best results. We also contemplated weighting features by where they appear in the context. We experimented with using different weights for the features in the context appearing before the word and after the word. We also experimented with treating the features in the same sentence as the word as a different weight from the features appearing in sentences surrounding the word.
 
 \subsection{Dictionary WSD}
 \subsubsection{Parsing and Data Structures}
