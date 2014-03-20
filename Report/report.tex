@@ -158,6 +158,7 @@ def score_validation_set(unclassified_words, unigram_model, word_map, outputFile
         text_file.write(bestSense + "\n")
     text_file.close()
 \end{lstlisting}		
+	
 
 \subsection{Dictionary WSD}
 \subsubsection{Parsing and Data Structures}
@@ -243,6 +244,23 @@ The Python Standard Library ElementTree XML API was utilized to parse the dictio
 \end{table}
 
 Here we present the results of a few of our trials sorted in decreasing order of efficiency based on the kaggle test set. We have two baselines which were guessing a random sense which scored approximately .33. Surprisingly, just guessing the most common sense is enough to get a score of .78076. We then created our naive bayes classifier by adding on features incrementally. 
+
+\subsubsection{Feature Selection}
+\begin{center}
+\begin{table}
+    \begin{tabular}{|l|l|}
+    \hline
+    Submission                          & Score   \\ \hline
+    Used a stop list to select features & 0.81266 \\
+    Used features with idf > 2.0        & 0.80704 \\
+    Used all features                   & 0.80704 \\
+    Most common senses(baseline)        & 0.78076 \\ \hline
+    \end{tabular}
+\end{table}
+\end{center}
+
+\subsubsection{Extension 4}
+\includegraphics[width = 4in]{data_plot.png}
 
 \subsection{Dictionary WSD}
 TODO
