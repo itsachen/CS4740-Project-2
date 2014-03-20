@@ -42,22 +42,6 @@ Matthew Oey (mso32)
 }}
 \end{center}
 
-\section{Work Distribution}
-\begin{itemize}
-    \item Anthony Chen 
-        \begin{itemize}
-            \item Dictionary WSD
-        \end{itemize}    
-    \item Jimmy Feher
-        \begin{itemize}
-            \item Fill in
-        \end{itemize}  
-    \item Matt Oey
-        \begin{itemize}
-            \item Fill in
-        \end{itemize}  
-\end{itemize}
-
 \section{Approach}
 \subsection{Supervised WSD}
 \subsubsection{Parsing Input Data}
@@ -97,7 +81,34 @@ def get_sense_count(word_map):
 
 
 \subsection{Dictionary WSD}
-TODO
+\subsubsection{Parsing and Data Structures}
+The dictionary datafile parser generates a Dictionary object, which is a Python dictionary that holds Word objects. Word objects were also used in the parsing of the supervised WSD datasets. The Word object was used in both WSD methods because there were overlaps in the test dataset parsing methods. The Word object was augmented, however, to contain a dictionary of senses. For every word, the dictionary dataset parser created its constituent senses as Sense objects. Figure~\ref{sense} shows the data structure. The gloss and example sentences were tokenized using NLTK.
+
+\begin{figure}[ht]
+\begin{lstlisting}
+class Sense:
+    def __init__(self,id,wordnet_ids,gloss,examples):
+        self.id = id # The dictionary dataset sense of a word
+        self.wordnet_ids = wordnet_ids # List of characters
+        self.gloss = gloss # List of tokens (lemmatized or not)
+        self.examples = examples # List of lists of tokens (lemmatized or not)
+\end{lstlisting}
+\caption{Sense object for dictionary WSD}
+\label{sense}
+\end{figure}
+
+\subsubsection{Word-sense Disambiguation}
+The WSD algorithm is similar to Lesk's algorithm. First, the method parses the test dataset using parse\_test\_data().
+
+\subsubsection{Feature Selection}
+IDF threshold
+lol
+
+\subsubsection{Overlap Calculation}
+foo
+
+\subsubsection{Lemmatization}
+We included an optional lemmatization step in both the parsing of the dictionary dataset and the disambiguation. Tokens from the sense gloss and example sentences are lemmatized, as well as the features provided to word\_sense\_disambiguation() and the feature synset definition and example sentences. The reasoning in lemmatizing tokens was to reduce false negatives in calculating overlaps, due to morphological variations in words.
 
 
 \section{Software}
@@ -105,8 +116,7 @@ TODO
 For Supervised WSD we used NLTK 
 
 \subsection{Dictionary WSD}
-NLTK
-
+The Python Standard Library ElementTree XML API was utilized to parse the dictionary XML file and generate a hierarchical set of data structures representing the dictionary datafile contents. Libraries from the Natural Language Toolkit (NLTK) were also used extensively in the parsing of the dictionary dataset and in the disambiguation process. Specifically, the word tokenizer, part of speech tagger, and lemmatizer were used.
 
 \section{Results}
 \subsection{Supervised WSD}
