@@ -307,6 +307,6 @@ A soft score of the process was also calculated, with a threshold of 6.0, no ave
 The three most informative features we have are the previous context, after context, and the target word. By adding in the target word probability we were able to increase our score by almost .4\%. Though this information is not in the above table. Removing the left context decreased our score by about .6% and removing the right context decreased our score by about .5\%. 
 
 \subsection{Dictionary WSD}
-TODO
+In a dictionary WSD system the ability to disambiguate words relies on the size and complexity of the dictionary dataset. The given dictionary dataset was too small to be used on most features presented, so WordNet was utilized instead. Without WordNet, the system would not be accurate at all. This is a difference between supervised WSD and dictionary WSD. Even though supervised WSD requires a training corpus, it does not need to be as formalized, complex, or complete as a dictionary.
 
 \end{document}
